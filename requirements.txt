@@ -1,6 +1,7 @@
-aiogram~=3.4.1
-asyncio~=3.4.3
+aiogram
+asyncio
 psycopg2-binary
-python-dotenv~=1.0.1
-watchdog~=4.0.0
-psycopg2~=2.9.9
+python-dotenv
+watchdog
+psycopg2
+PyYAML

@@ -1,4 +1,4 @@
-# from src.dbms.connection import cursor, conn
+from src.dbms.connection import cursor, conn
 
 
 def create_tables(func):

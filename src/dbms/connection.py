@@ -3,6 +3,7 @@ import os
 import psycopg2
 # !!! psycopg2-binary is lib for postgreSQL. You need replace it with lib which fits with yours DBMS
 from dotenv import load_dotenv, find_dotenv
+from psycopg2.extras import DictCursor
 
 try:
     # Initialized env variables

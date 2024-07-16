@@ -8,7 +8,7 @@ class AdminsService(Service):
 
         self.select: SelectAdmins = SelectAdmins()
 
-    async def am_i_admin(self, chat_id) -> dict:
-        query = await self.select.select_admin_by_chat_id(chat_id)
+    async def get_admin_full_name_by_chat_id(self, chat_id) -> dict:
+        query = await self.select.select_admin_full_name_by_chat_id(chat_id)
 
         return await self.exec(query=query, fetch=True)

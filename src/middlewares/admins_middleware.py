@@ -23,9 +23,9 @@ class AdminsMiddleware(BaseMiddleware):
     ) -> None:
         chat_id = msg.from_user.id
 
-        is_admin = await self.admins_service.am_i_admin(chat_id)
+        is_admin = await self.admins_service.get_admin_full_name_by_chat_id(chat_id)
 
-        if not is_admin:
+        if not is_admin[0][0]:
             error_msg = await self.admins_errors.forbidden_access(chat_id)
             raise CancelHandler(error_msg)
 
@@ -36,9 +36,9 @@ class AdminsMiddleware(BaseMiddleware):
     ) -> None:
         chat_id = query.message.from_user.id
 
-        is_admin = await self.admins_service.am_i_admin(chat_id)
+        is_admin = await self.admins_service.get_admin_full_name_by_chat_id(chat_id)
 
-        if not is_admin:
+        if not is_admin[0][0]:
             error_msg = await self.admins_errors.forbidden_access(chat_id)
             raise CancelHandler(error_msg)
 

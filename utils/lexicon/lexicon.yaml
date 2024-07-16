@@ -1,0 +1,4 @@
+replicas:
+  admin:
+    backward: "Назад"
+    greeting: "Добро пожаловать в панель администратора, "

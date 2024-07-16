@@ -1,4 +1,23 @@
 replicas:
   admin:
-    backward: "Назад"
     greeting: "Добро пожаловать в панель администратора, "
+    other:
+      option: "Выберите опцию"
+
+
+buttons:
+  admin:
+    backward: "Назад"
+    to_main_panel: "В главное меню"
+    main_panel:
+      forms:
+        main: "Анкеты"
+        new: "Новые анкеты"
+      events:
+        main: "Мероприятия"
+
+
+callback_data:
+  admin:
+    backward: "admins_backward"
+    to_main_panel: "admins_get_main_menu"

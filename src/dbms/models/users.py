@@ -7,13 +7,13 @@ def create_users_model():
         photo_id         VARCHAR(255),
         full_name        VARCHAR(100),
         birth_date       VARCHAR(10),
-        city             VARCHAR(100),
-        company          VARCHAR(255),
+        city             VARCHAR(50),
+        company          VARCHAR(100),
         position         VARCHAR(100),
         rm_status        VARCHAR(100),
-        hobbies          TEXT,
-        resources        TEXT,
-        expertise        TEXT,
+        hobbies          VARCHAR(120),
+        resources        VARCHAR(120),
+        expertise        VARCHAR(120),
         is_approved      BOOLEAN      DEFAULT FALSE,
         is_admin         BOOLEAN      DEFAULT FALSE
     )"""

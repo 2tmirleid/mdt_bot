@@ -1,6 +1,6 @@
 from aiogram import Router, F
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
 from src.admins.admins_controller import AdminsController
 from src.middlewares.admins_middleware import AdminsMiddleware
@@ -10,7 +10,7 @@ router: Router = Router()
 
 # Подключение middleware для защиты от несанкцианированного доступа в админку
 router.message.middleware(AdminsMiddleware())
-router.callback_query.middleware(AdminsMiddleware())
+# router.callback_query.middleware(AdminsMiddleware())
 
 admins_controller: AdminsController = AdminsController()
 
@@ -33,5 +33,13 @@ async def process_admins_get_started(msg: Message) -> None:
 @router.callback_query(F.data == callback_data['admin']['to_main_panel'])
 @router.message(F.text == buttons['admin']['backward'])
 @router.message(F.text == buttons['admin']['to_main_panel'])
-async def process_admins_get_backward(msg: Message) -> None:
+async def process_admins_get_backward(event: Message | CallbackQuery) -> None:
+    msg = None
+
+    if isinstance(event, Message):
+        msg = event
+
+    if isinstance(event, CallbackQuery):
+        msg = event.message
+
     await admins_controller.get_main_admin_panel(msg)

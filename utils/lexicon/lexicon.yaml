@@ -1,11 +1,17 @@
 replicas:
+  general:
+    error: "Что-то пошло не так..."
   admin:
     greeting: "Добро пожаловать в панель администратора, "
     other:
       option: "Выберите опцию"
+      empty: "Список пуст"
 
 
 buttons:
+  pagen:
+    backward: "<<"
+    next: ">>"
   admin:
     backward: "Назад"
     to_main_panel: "В главное меню"
@@ -15,9 +21,18 @@ buttons:
         new: "Новые анкеты"
       events:
         main: "Мероприятия"
+    forms:
+      accept: "Подтвердить"
+      reject: "Отклонить"
 
 
 callback_data:
   admin:
+    pagen:
+      backward: "admins_pagen_backward"
+      next: "admins_pagen_next"
     backward: "admins_backward"
     to_main_panel: "admins_get_main_menu"
+    forms:
+      accept: "admins_form_accept"
+      reject: "admins_form_reject"

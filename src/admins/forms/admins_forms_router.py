@@ -53,3 +53,11 @@ async def process_admins_pagen_backward_forms(clb_query: CallbackQuery) -> None:
     await admins_controller.get_forms_admins_new(msg=clb_query.message,
                                                  offset=offset,
                                                  edit=True)
+
+
+# Обработка подтверждения новой анкеты
+@router.callback_query(lambda query: query.data.startswith("admins_forms_accept"))
+async def process_admins_accept_new_form(clb_query: CallbackQuery) -> None:
+    form_id = str(clb_query.data.split("-")[1])
+
+    await admins_controller.admins_accept_new_form(msg=clb_query.message, form_id=form_id)

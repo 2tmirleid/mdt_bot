@@ -25,7 +25,8 @@ class SelectAdmins:
                            resources, 
                            expertise 
                         FROM users 
-                        WHERE is_approved = '0' 
+                        WHERE is_approved = '0'
+                            AND is_rejected = '0'
                         ORDER BY _id 
                         LIMIT 1
                         OFFSET {offset}"""
@@ -33,4 +34,5 @@ class SelectAdmins:
     async def select_admin_new_forms_count(self) -> str:
         return """SELECT COUNT( * )
                     FROM users
-                    WHERE is_approved = '0'"""
+                    WHERE is_approved = '0'
+                        AND is_rejected = '0'"""

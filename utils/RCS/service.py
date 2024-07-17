@@ -14,4 +14,4 @@ class Service:
             if fetch:
                 return cursor.fetchall()
             if commit:
-                return cursor.commit()
+                return self.conn.commit()

@@ -1,8 +1,13 @@
+import os
+
+from aiogram import Bot
 from aiogram.types import Message, InlineKeyboardMarkup, InputMediaPhoto
 
 from src.admins.forms.admins_forms_service import AdminsFormsService
 from src.admins.keyboards.inline.admins_inline_keyboards import AdminsInlineKeyboards
 from src.admins.keyboards.reply.admins_reply_keyboards import AdminsReplyKeyboards
+from src.users.keyboards.reply.users_reply_keyboards import UsersReplyKeyboards
+from src.users.users_service import UserService
 from utils.RCS.controller import Controller
 from utils.lexicon.load_lexicon import load_lexicon
 
@@ -11,10 +16,16 @@ class AdminsFormsController(Controller):
     def __init__(self):
         super().__init__()
 
+        self.TOKEN = os.environ["TOKEN"]
+
+        self.bot = Bot(token=self.TOKEN)
+
         self.admins_service: AdminsFormsService = AdminsFormsService()
+        self.users_service: UserService = UserService()
 
         self.admins_reply_keyboards: AdminsReplyKeyboards = AdminsReplyKeyboards()
         self.admins_inline_keyboards: AdminsInlineKeyboards = AdminsInlineKeyboards()
+        self.users_reply_keyboards: UsersReplyKeyboards = UsersReplyKeyboards()
 
         self.lexicon = load_lexicon()
         self.replicas = self.lexicon.get("replicas")
@@ -99,6 +110,33 @@ class AdminsFormsController(Controller):
 
             back_to_main_menu_btn = await (self.admins_inline_keyboards.
                                            admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+
+            await msg.answer(self.replicas['general']['error'],
+                             reply_markup=back_to_main_menu_btn)
+
+    # Подтверждение новой анкеты
+    async def admins_accept_new_form(self, msg: Message, form_id) -> None:
+        back_to_main_menu_btn = await (self.admins_inline_keyboards.
+                                       admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+
+        try:
+            form = await self.admins_service.accept_new_form(form_id)
+
+            if form:
+                user = await self.users_service.get_user_chat_id_by_id(form_id)
+
+                await msg.answer(self.replicas['admin']['forms']['accept'],
+                                 reply_markup=back_to_main_menu_btn)
+
+                user_keyboard = await self.users_reply_keyboards.users_start_command()
+
+                await self.bot.send_message(
+                    chat_id=user[0]['tg_chat_id'],
+                    text=self.replicas['user']['forms']['accept'],
+                    reply_markup=user_keyboard
+                )
+        except Exception as e:
+            print(f"Error while accepting form by admin: {e}")
 
             await msg.answer(self.replicas['general']['error'],
                              reply_markup=back_to_main_menu_btn)

@@ -15,5 +15,6 @@ def create_users_model():
         resources        VARCHAR(120),
         expertise        VARCHAR(120),
         is_approved      BOOLEAN      DEFAULT FALSE,
+        is_rejected      BOOLEAN      DEFAULT FALSE,
         is_admin         BOOLEAN      DEFAULT FALSE
     )"""

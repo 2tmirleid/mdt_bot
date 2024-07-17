@@ -6,6 +6,13 @@ replicas:
     other:
       option: "Выберите опцию"
       empty: "Список пуст"
+    forms:
+      accept: "Профиль успешно подтвержден!"
+      reject: "Профиль не подтвержден"
+  user:
+    forms:
+      accept: "Ваш профиль был подтвержден!"
+      reject: "Ваш профиль не прошел проверку"
 
 
 buttons:
@@ -24,6 +31,8 @@ buttons:
     forms:
       accept: "Подтвердить"
       reject: "Отклонить"
+  user:
+    start: "/start"
 
 
 callback_data:
@@ -34,5 +43,5 @@ callback_data:
     backward: "admins_backward"
     to_main_panel: "admins_get_main_menu"
     forms:
-      accept: "admins_form_accept"
-      reject: "admins_form_reject"
+      accept: "admins_forms_accept"
+      reject: "admins_forms_reject"

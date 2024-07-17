@@ -31,10 +31,8 @@ class AdminsInlineKeyboards:
         accept_btn_text = self.buttons['admin']['forms']['accept']
         reject_btn_text = self.buttons['admin']['forms']['reject']
 
-        accept_btn_clb_data = (self.callback_data['admin']['forms']['accept'] +
-                               callback_data.rsplit("-", 1)[0])
-        reject_btn_clb_data = (self.callback_data['admin']['forms']['reject'] +
-                               callback_data.rsplit("-", 1)[0])
+        accept_btn_clb_data = self.callback_data['admin']['forms']['accept'] + callback_data
+        reject_btn_clb_data = self.callback_data['admin']['forms']['reject'] + callback_data
 
         return [
             [InlineKeyboardButton(text=accept_btn_text, callback_data=accept_btn_clb_data),

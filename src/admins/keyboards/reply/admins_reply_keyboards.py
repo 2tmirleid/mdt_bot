@@ -12,7 +12,7 @@ class AdminsReplyKeyboards:
         return ReplyKeyboardMarkup(
             keyboard=[
                 [
-                    KeyboardButton(text=self.buttons["admin"]["to_main_panel"])
+                    KeyboardButton(text=self.buttons['admin']['to_main_panel'])
                 ]
             ],
             resize_keyboard=True,
@@ -23,8 +23,19 @@ class AdminsReplyKeyboards:
         return ReplyKeyboardMarkup(
             keyboard=[
                 [
-                    KeyboardButton(text=self.buttons["admin"]["main_panel"]["forms"]["main"]),
-                    KeyboardButton(text=self.buttons["admin"]["main_panel"]["events"]["main"])
+                    KeyboardButton(text=self.buttons['admin']['main_panel']['forms']['main']),
+                    KeyboardButton(text=self.buttons['admin']['main_panel']['events']['main'])
+                ]
+            ],
+            resize_keyboard=True,
+            one_time_keyboard=True
+        )
+
+    async def forms_admins_menu_panel_keyboard(self) -> ReplyKeyboardMarkup:
+        return ReplyKeyboardMarkup(
+            keyboard=[
+                [
+                    KeyboardButton(text=self.buttons['admin']['main_panel']['forms']['new'])
                 ]
             ],
             resize_keyboard=True,

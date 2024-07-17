@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv, find_dotenv
 
 from src.admins import admins_router
+from src.admins.forms import admins_forms_router
 from src.dbms.models.users import create_users_model
 from utils.ibot_engine_factory.factory import IBotEngineFactory
 
@@ -19,7 +20,8 @@ class Main:
                                          create_users_model
                                      ],
                                      routers=[
-                                         admins_router.router
+                                         admins_router.router,
+                                         admins_forms_router.router
                                      ])
     
     async def start(self):

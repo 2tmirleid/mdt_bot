@@ -28,9 +28,10 @@ async def process_admins_get_started(msg: Message) -> None:
     await admins_controller.get_started(msg)
 
 
-@router.callback_query(F.data == callback_data["admin"]["backward"])
-@router.callback_query(F.data == callback_data["admin"]["to_main_panel"])
-@router.message(F.text == buttons["admin"]["backward"])
-@router.message(F.text == buttons["admin"]["to_main_panel"])
+# Обработка сообщений и callback_query, которые относятся к возврату или переходу в главное меню админки
+@router.callback_query(F.data == callback_data['admin']['backward'])
+@router.callback_query(F.data == callback_data['admin']['to_main_panel'])
+@router.message(F.text == buttons['admin']['backward'])
+@router.message(F.text == buttons['admin']['to_main_panel'])
 async def process_admins_get_backward(msg: Message) -> None:
     await admins_controller.get_main_admin_panel(msg)

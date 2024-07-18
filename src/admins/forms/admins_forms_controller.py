@@ -125,10 +125,11 @@ class AdminsFormsController(Controller):
             if form:
                 user = await self.users_service.get_user_chat_id_by_id(form_id)
 
-                await msg.answer(self.replicas['admin']['forms']['accept'],
-                                 reply_markup=back_to_main_menu_btn)
+                await self.get_forms_admins_new(msg)
 
-                user_keyboard = await self.users_reply_keyboards.users_start_command()
+                await msg.answer(self.replicas['admin']['forms']['accept'])
+
+                user_keyboard = await self.users_reply_keyboards.users_start_command_reply_keyboard()
 
                 await self.bot.send_message(
                     chat_id=user[0]['tg_chat_id'],
@@ -140,3 +141,29 @@ class AdminsFormsController(Controller):
 
             await msg.answer(self.replicas['general']['error'],
                              reply_markup=back_to_main_menu_btn)
+
+    # Отклонение новой анкеты
+    async def admins_reject_new_form(self, msg: Message, form_id) -> None:
+        back_to_main_menu_btn = await (self.admins_inline_keyboards.
+                                       admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+
+        try:
+            form = await self.admins_service.reject_new_form(form_id)
+
+            if form:
+                user = await self.users_service.get_user_chat_id_by_id(form_id)
+
+                await self.get_forms_admins_new(msg)
+
+                await msg.answer(self.replicas['admin']['forms']['reject'])
+
+                await self.bot.send_message(
+                    chat_id=user[0]['tg_chat_id'],
+                    text=self.replicas['user']['forms']['reject'],
+                )
+        except Exception as e:
+            print(f"Error while rejecting form by admin: {e}")
+
+            await msg.answer(self.replicas['general']['error'],
+                             reply_markup=back_to_main_menu_btn)
+

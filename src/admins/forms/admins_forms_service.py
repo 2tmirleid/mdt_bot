@@ -34,3 +34,15 @@ class AdminsFormsService(Service):
             print(f"Error while accepting new form from db: {e}")
 
             return False
+
+    async def reject_new_form(self, form_id) -> bool:
+        try:
+            query = await self.update.update_new_form_by_rejecting(form_id)
+
+            await self.exec(query=query, commit=True)
+
+            return True
+        except Exception as e:
+            print(f"Error while accepting new form from db: {e}")
+
+            return False

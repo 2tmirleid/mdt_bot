@@ -8,7 +8,7 @@ class UsersReplyKeyboards:
         self.lexicon = load_lexicon()
         self.buttons = self.lexicon.get("buttons")
 
-    async def users_start_command(self) -> ReplyKeyboardMarkup:
+    async def users_start_command_reply_keyboard(self) -> ReplyKeyboardMarkup:
         return ReplyKeyboardMarkup(
             keyboard=[
                 [KeyboardButton(text=self.buttons['user']['start'])]

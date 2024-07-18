@@ -61,3 +61,11 @@ async def process_admins_accept_new_form(clb_query: CallbackQuery) -> None:
     form_id = str(clb_query.data.split("-")[1])
 
     await admins_controller.admins_accept_new_form(msg=clb_query.message, form_id=form_id)
+
+
+# Обработка отклонения новой анкеты
+@router.callback_query(lambda query: query.data.startswith("admins_forms_reject"))
+async def process_admins_reject_new_form(clb_query: CallbackQuery) -> None:
+    form_id = str(clb_query.data.split("-")[1])
+
+    await admins_controller.admins_reject_new_form(msg=clb_query.message, form_id=form_id)

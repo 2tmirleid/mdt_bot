@@ -36,3 +36,22 @@ class SelectAdmins:
                     FROM users
                     WHERE is_approved = '0'
                         AND is_rejected = '0'"""
+
+    async def select_events(self, city: str, offset=0) -> str:
+        return f"""SELECT _id,
+                         photo_id,
+                         title,
+                         city,
+                         description,
+                         event_date,
+                         is_active
+                      FROM events
+                      WHERE city = '{city}'
+                      ORDER BY _id
+                      LIMIT 1
+                      OFFSET {offset}"""
+
+    async def select_events_count(self, city: str) -> str:
+        return f"""SELECT COUNT( * )
+                    FROM events
+                    WHERE city = '{city}'"""

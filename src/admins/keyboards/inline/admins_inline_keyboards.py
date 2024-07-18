@@ -38,3 +38,18 @@ class AdminsInlineKeyboards:
             [InlineKeyboardButton(text=accept_btn_text, callback_data=accept_btn_clb_data),
              InlineKeyboardButton(text=reject_btn_text, callback_data=reject_btn_clb_data)]
         ]
+
+    async def admins_dynamic_entity_keyboard(self, callback_data: str) -> list:
+        add_btn_text = self.buttons['admin']['general']['add']
+        edit_btn_text = self.buttons['admin']['general']['edit']['main']
+        delete_btn_text = self.buttons['admin']['general']['delete']
+
+        add_btn_clb_data = self.callback_data['admin']['general']['add'] + callback_data.rsplit("-", 1)[0]
+        edit_btn_clb_data = self.callback_data['admin']['general']['edit']['main'] + callback_data
+        delete_btn_clb_data = self.callback_data['admin']['general']['delete'] + callback_data
+
+        return [
+            InlineKeyboardButton(text=add_btn_text, callback_data=add_btn_clb_data),
+            InlineKeyboardButton(text=edit_btn_text, callback_data=edit_btn_clb_data),
+            InlineKeyboardButton(text=delete_btn_text, callback_data=delete_btn_clb_data)
+        ]

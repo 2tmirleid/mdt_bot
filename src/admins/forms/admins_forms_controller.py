@@ -38,7 +38,7 @@ class AdminsFormsController(Controller):
                          reply_markup=keyboard)
 
     # Вывод новых анкет
-    async def get_forms_admins_new(self, msg: Message, offset=0, edit=False) -> None:
+    async def admins_get_new_forms(self, msg: Message, offset=0, edit=False) -> None:
         try:
             # Получение анкет с LIMIT 1 и OFFSET = offset
             forms = await self.admins_service.get_new_forms(offset=offset)
@@ -125,7 +125,7 @@ class AdminsFormsController(Controller):
             if form:
                 user = await self.users_service.get_user_chat_id_by_id(form_id)
 
-                await self.get_forms_admins_new(msg)
+                await self.admins_get_new_forms(msg)
 
                 await msg.answer(self.replicas['admin']['forms']['accept'])
 
@@ -153,7 +153,7 @@ class AdminsFormsController(Controller):
             if form:
                 user = await self.users_service.get_user_chat_id_by_id(form_id)
 
-                await self.get_forms_admins_new(msg)
+                await self.admins_get_new_forms(msg)
 
                 await msg.answer(self.replicas['admin']['forms']['reject'])
 

@@ -29,7 +29,7 @@ async def process_admins_get_forms_menu_panel(msg: Message) -> None:
 # Обработка нажатия кнопки "Новые анкеты"
 @router.message(F.text == buttons['admin']['main_panel']['forms']['new'])
 async def process_admins_get_new_forms(msg: Message) -> None:
-    await admins_controller.get_forms_admins_new(msg)
+    await admins_controller.admins_get_new_forms(msg)
 
 
 # Обработка кнопки пагинации >> для новых анкет
@@ -39,7 +39,7 @@ async def process_admins_pagen_next_forms(clb_query: CallbackQuery) -> None:
 
     offset = int(offset_split) + 1
 
-    await admins_controller.get_forms_admins_new(msg=clb_query.message,
+    await admins_controller.admins_get_new_forms(msg=clb_query.message,
                                                  offset=offset,
                                                  edit=True)
 
@@ -50,7 +50,7 @@ async def process_admins_pagen_backward_forms(clb_query: CallbackQuery) -> None:
     offset_split = str(clb_query.data.split("-")[1])
     offset = int(offset_split) - 1
 
-    await admins_controller.get_forms_admins_new(msg=clb_query.message,
+    await admins_controller.admins_get_new_forms(msg=clb_query.message,
                                                  offset=offset,
                                                  edit=True)
 

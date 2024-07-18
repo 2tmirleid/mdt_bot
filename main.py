@@ -4,7 +4,9 @@ import os
 from dotenv import load_dotenv, find_dotenv
 
 from src.admins import admins_router
+from src.admins.events import admins_events_router
 from src.admins.forms import admins_forms_router
+from src.dbms.models.events import create_events_model
 from src.dbms.models.users import create_users_model
 from utils.ibot_engine_factory.factory import IBotEngineFactory
 
@@ -17,11 +19,13 @@ class Main:
 
         self.bot = IBotEngineFactory(token=os.environ["TOKEN"],
                                      models=[
-                                         create_users_model
+                                         create_users_model,
+                                         create_events_model
                                      ],
                                      routers=[
                                          admins_router.router,
-                                         admins_forms_router.router
+                                         admins_forms_router.router,
+                                         admins_events_router.router
                                      ])
     
     async def start(self):

@@ -9,6 +9,9 @@ replicas:
     forms:
       accept: "Профиль успешно подтвержден!"
       reject: "Профиль не подтвержден"
+    events:
+      choice: "Выберите город из меню ниже"
+      incorrect_city: "Выбран некорректный город"
   user:
     forms:
       accept: "Ваш профиль был подтвержден!"
@@ -20,6 +23,11 @@ buttons:
     backward: "<<"
     next: ">>"
   admin:
+    general:
+      add: "Добавить"
+      edit:
+        main: "Изменить"
+      delete: "Удалить"
     backward: "Назад"
     to_main_panel: "В главное меню"
     main_panel:
@@ -28,6 +36,9 @@ buttons:
         new: "Новые анкеты"
       events:
         main: "Мероприятия"
+        city:
+          saransk: "Саранск"
+          moscow: "Москва"
     forms:
       accept: "Подтвердить"
       reject: "Отклонить"
@@ -37,6 +48,11 @@ buttons:
 
 callback_data:
   admin:
+    general:
+      add: "admins_add"
+      edit:
+        main: "admins_edit"
+      delete: "admins_delete"
     pagen:
       backward: "admins_pagen_backward"
       next: "admins_pagen_next"

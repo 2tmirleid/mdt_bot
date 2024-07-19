@@ -19,15 +19,25 @@ class Pagen:
             backward_btn_text = self.buttons['pagen']['backward']
             next_btn_text = self.buttons['pagen']['next']
 
+            start_btn_text = self.buttons['pagen']['start']
+            end_btn_text = self.buttons['pagen']['end']
+
             backward_clb_data = self.callback_data['admin']['pagen']['backward'] + callback_data
             next_clb_data = self.callback_data['admin']['pagen']['next'] + callback_data
 
+            start_clb_data = self.callback_data['admin']['pagen']['start'] + callback_data
+            end_clb_data = self.callback_data['admin']['pagen']['end'] + callback_data
+
             if offset > 0:
+                buttons.append(InlineKeyboardButton(text=start_btn_text,
+                                                    callback_data=start_clb_data))
                 buttons.append(InlineKeyboardButton(text=backward_btn_text,
                                                     callback_data=backward_clb_data))
             if pages > offset + 1:
                 buttons.append(InlineKeyboardButton(text=next_btn_text,
                                                     callback_data=next_clb_data))
+                buttons.append(InlineKeyboardButton(text=end_btn_text,
+                                                    callback_data=end_clb_data))
 
             return buttons
 

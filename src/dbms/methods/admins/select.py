@@ -46,7 +46,7 @@ class SelectAdmins:
                          event_date,
                          is_active
                       FROM events
-                      WHERE city = '{city}'
+                      WHERE LOWER(city)  = '{city.lower()}'
                       ORDER BY _id
                       LIMIT 1
                       OFFSET {offset}"""
@@ -55,3 +55,23 @@ class SelectAdmins:
         return f"""SELECT COUNT( * )
                     FROM events
                     WHERE city = '{city}'"""
+
+    async def select_users_for_event(self, event_id, offset=0) -> str:
+        return f"""
+            SELECT u.full_name,
+                   u.tg_username 
+            FROM users_for_events ufe
+                JOIN users u 
+                    ON ufe.user_id = u._id
+                WHERE event_id = '{event_id}'
+                ORDER BY ufe.user_id
+                LIMIT 1
+                offset {offset}
+        """
+
+    async def select_users_count_for_event(self, event_id) -> str:
+        return f"""
+            SELECT COUNT ( * )
+            FROM users_for_events
+                WHERE event_id = '{event_id}'
+        """

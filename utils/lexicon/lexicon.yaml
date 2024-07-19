@@ -1,7 +1,17 @@
 replicas:
   general:
     error: "Что-то пошло не так..."
+    max_chars_length: "Количество символов не должно быть больше "
+    date_pattern: "Введен неверный формат даты (ГГГГ-ММ-ДД)"
   admin:
+    entities:
+      create:
+        photo: "Отправьте фото"
+        title: "Отправьте название"
+        description: "Отправьте описание"
+        date: "Отправьте дату проведения в формате ГГГГ-ММ-ДД"
+        city: "Выберите город, в котором будет проходить мероприятие, нажав на одну из кнопок ниже"
+        finish: "Успешно добавлено!"
     greeting: "Добро пожаловать в панель администратора, "
     other:
       option: "Выберите опцию"
@@ -22,12 +32,15 @@ buttons:
   pagen:
     backward: "<<"
     next: ">>"
+    start: "В начало"
+    end: "В конец"
   admin:
     general:
       add: "Добавить"
       edit:
         main: "Изменить"
       delete: "Удалить"
+      export: "Участники"
     backward: "Назад"
     to_main_panel: "В главное меню"
     main_panel:
@@ -39,6 +52,7 @@ buttons:
         city:
           saransk: "Саранск"
           moscow: "Москва"
+        export: "Записавшиеся"
     forms:
       accept: "Подтвердить"
       reject: "Отклонить"
@@ -53,11 +67,20 @@ callback_data:
       edit:
         main: "admins_edit"
       delete: "admins_delete"
+      export: "admins_export"
     pagen:
       backward: "admins_pagen_backward"
       next: "admins_pagen_next"
+      start: "admins_pagen_start"
+      end: "admins_pagen_end"
     backward: "admins_backward"
     to_main_panel: "admins_get_main_menu"
     forms:
       accept: "admins_forms_accept"
       reject: "admins_forms_reject"
+    main_panel:
+      events:
+        city:
+          saransk: "admins_add_city-saransk"
+          moscow: "admins_add_city-moscow"
+

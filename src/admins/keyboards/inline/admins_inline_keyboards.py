@@ -53,3 +53,24 @@ class AdminsInlineKeyboards:
             InlineKeyboardButton(text=edit_btn_text, callback_data=edit_btn_clb_data),
             InlineKeyboardButton(text=delete_btn_text, callback_data=delete_btn_clb_data)
         ]
+
+    async def admins_events_city_inline_keyboard(self) -> list:
+        saransk_btn_text = self.buttons['admin']['main_panel']['events']['city']['saransk']
+        moscow_btn_text = self.buttons['admin']['main_panel']['events']['city']['moscow']
+
+        saransk_btn_clb_data = self.callback_data['admin']['main_panel']['events']['city']['saransk']
+        moscow_btn_clb_data = self.callback_data['admin']['main_panel']['events']['city']['moscow']
+
+        return [
+            [InlineKeyboardButton(text=saransk_btn_text, callback_data=saransk_btn_clb_data),
+             InlineKeyboardButton(text=moscow_btn_text, callback_data=moscow_btn_clb_data)]
+        ]
+
+    async def admins_export_event_inline_keyboard(self, callback_data: str) -> list:
+        export_btn_text = self.buttons['admin']['general']['export']
+
+        export_btn_clb_data = self.callback_data['admin']['general']['export'] + callback_data
+
+        return [
+            InlineKeyboardButton(text=export_btn_text, callback_data=export_btn_clb_data)
+        ]

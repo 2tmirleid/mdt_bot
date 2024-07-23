@@ -9,6 +9,7 @@ from src.admins.forms import admins_forms_router
 from src.dbms.models.events import create_events_model
 from src.dbms.models.users import create_users_model
 from src.users import users_router
+from src.users.about import users_about_router
 from src.users.auth import users_auth_router
 from utils.ibot_engine_factory.factory import IBotEngineFactory
 
@@ -30,7 +31,8 @@ class Main:
                                          admins_events_router.router,
 
                                          users_router.router,
-                                         users_auth_router.router
+                                         users_auth_router.router,
+                                         users_about_router.router
                                      ])
 
     async def start(self):

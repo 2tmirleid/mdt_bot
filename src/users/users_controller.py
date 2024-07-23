@@ -25,7 +25,7 @@ class UsersController(Controller):
         self.replicas = self.lexicon.get("replicas")
 
     async def users_get_started(self, msg: Message) -> None:
-        keyboard = await self.users_reply_keyboards.users_to_main_panel_reply_keyboard()
+        keyboard = await self.users_reply_keyboards.users_to_main_panel_reply_keyboard(markup=True)
 
         await msg.answer(self.replicas['user']['greeting'],
                          reply_markup=keyboard)

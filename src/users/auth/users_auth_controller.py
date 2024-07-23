@@ -40,7 +40,7 @@ class UsersAuthController(Controller):
         await msg.answer(self.replicas['user']['forms']['reject'])
 
     async def users_already_registered(self, msg: Message) -> None:
-        keyboard = await self.users_reply_keyboards.users_to_main_panel_reply_keyboard()
+        keyboard = await self.users_reply_keyboards.users_to_main_panel_reply_keyboard(markup=True)
 
         await msg.answer(self.replicas['general']['already_registered'],
                          reply_markup=keyboard)
@@ -323,7 +323,7 @@ class UsersAuthController(Controller):
             user = await self.users_auth_service.save_tg_chat_id_and_tg_username(chat_id, username, phone)
 
             if user:
-                keyboard = await self.users_reply_keyboards.users_to_main_panel_reply_keyboard()
+                keyboard = await self.users_reply_keyboards.users_to_main_panel_reply_keyboard(markup=True)
 
                 await msg.answer(self.replicas['user']['register']['finish'],
                                  reply_markup=keyboard)

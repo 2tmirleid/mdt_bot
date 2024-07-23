@@ -10,3 +10,18 @@ class SelectUsers:
 
     async def select_user_by_phone(self, phone) -> str:
         return f"""SELECT phone FROM users WHERE phone = '{phone}' AND is_approved = '1'"""
+
+    async def select_user_profile_by_chat_id(self, chat_id) -> str:
+        return f"""SELECT phone,
+                          photo,
+                          full_name,
+                          birth_date,
+                          city,
+                          company,
+                          position,
+                          rm_status,
+                          hobbies,
+                          resources,
+                          expertise
+                    FROM users
+                        WHERE tg_chat_id = '{chat_id}'"""

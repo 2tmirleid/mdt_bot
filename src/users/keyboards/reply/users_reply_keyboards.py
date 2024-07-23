@@ -44,3 +44,22 @@ class UsersReplyKeyboards:
             resize_keyboard=True,
             one_time_keyboard=True
         )
+
+    async def users_main_menu_panel_reply_keyboard(self) -> ReplyKeyboardMarkup:
+        return ReplyKeyboardMarkup(
+            keyboard=[
+                [
+                    KeyboardButton(text=self.buttons['user']['main_panel']['profile']),
+                    KeyboardButton(text=self.buttons['user']['main_panel']['residents']),
+                ],
+                [
+                    KeyboardButton(text=self.buttons['user']['main_panel']['about']),
+                    KeyboardButton(text=self.buttons['user']['main_panel']['contacts']),
+                ],
+                [
+                    KeyboardButton(text=self.buttons['user']['main_panel']['calendar'])
+                ]
+            ],
+            resize_keyboard=True,
+            one_time_keyboard=True
+        )

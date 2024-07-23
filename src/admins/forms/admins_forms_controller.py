@@ -168,4 +168,3 @@ class AdminsFormsController(Controller):
 
             await msg.answer(self.replicas['general']['error'],
                              reply_markup=back_to_main_menu_btn)
-

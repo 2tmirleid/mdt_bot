@@ -28,12 +28,6 @@ class UsersAlreadyAuthMiddleware(BaseMiddleware):
             if is_auth[0]['is_approved']:
                 await self.users_auth_controller.users_already_registered(msg)
                 raise CancelHandler()
-            elif is_auth[0]['is_rejected']:
-                await self.users_auth_controller.users_form_rejected(msg)
-                raise CancelHandler()
-            else:
-                await self.users_auth_controller.users_form_moderate(msg)
-                raise CancelHandler()
 
     async def on_pre_process_callback_query(
             self,
@@ -47,12 +41,6 @@ class UsersAlreadyAuthMiddleware(BaseMiddleware):
         if len(is_auth) > 0:
             if is_auth[0]['is_approved']:
                 await self.users_auth_controller.users_already_registered(query.message)
-                raise CancelHandler()
-            elif is_auth[0]['is_rejected']:
-                await self.users_auth_controller.users_form_rejected(query.message)
-                raise CancelHandler()
-            else:
-                await self.users_auth_controller.users_form_moderate(query.message)
                 raise CancelHandler()
 
     async def __call__(

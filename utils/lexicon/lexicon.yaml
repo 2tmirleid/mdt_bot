@@ -32,6 +32,9 @@ replicas:
       choice: "Выберите город из меню ниже"
       incorrect_city: "Выбран некорректный город"
   user:
+    other:
+      option: "Выберите опцию"
+      empty: "Список пуст"
     greeting: "Добро пожаловать!"
     forms:
       accept: "Ваш профиль был подтвержден!"
@@ -50,6 +53,11 @@ replicas:
       expertise: "Опишите свою экспертизу"
       moderate: "Заявка на регистрацию успешно отправлена!"
       finish: "Вы успешно зарегистрированы!"
+    edit:
+        property: "Выберите поле, которое нужно изменить"
+        value: "Отправьте новое значение"
+        finish: "Успешно изменено!"
+
 
 buttons:
   pagen:
@@ -93,6 +101,26 @@ buttons:
       start: "Регистрация"
       phone: "Отправить номер телефона"
     to_main_panel: "В главное меню 🏠"
+    main_panel:
+      profile: "Мой профиль ✔"
+      residents: "Резиденты МДТ 🌏"
+      about: "МДТ. О нас 📢"
+      contacts: "Связь 📱"
+      calendar: "Календарь 📆"
+    profile:
+      edit:
+        main: "Редактировать ✏"
+        photo: "Фото"
+        phone: "Телефон"
+        full_name: "ФИО"
+        birth_date: "Дата рождения"
+        city: "Город"
+        company: "Компания"
+        position: "Должность"
+        rm_status: "Отношение к РМ"
+        hobbies: "Хобби"
+        resources: "Ресурсы"
+        expertise: "Экспертиза"
 
 
 callback_data:
@@ -126,4 +154,19 @@ callback_data:
           description: "admins_edit_event-description"
           event_date: "admins_edit_event-event_date"
           is_active: "admins_edit_event-is_active"
-
+  user:
+    to_main_panel: "users_get_main_menu"
+    profile:
+      edit:
+        main: "users_edit_profile"
+        photo: "users_edit-photo"
+        phone: "users_edit-phone"
+        full_name: "users_edite-full_name"
+        birth_date: "users_edit-birth_date"
+        city: "users_edit-city"
+        company: "users_edit-company"
+        position: "users_edit-position"
+        rm_status: "users_edit-rm_status"
+        hobbies: "users_edit-hobbies"
+        resources: "users_edit-resources"
+        expertise: "users_edit-expertise"

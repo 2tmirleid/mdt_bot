@@ -11,7 +11,7 @@ class IBotEngineSMTPFactory:
 
     def __init__(
             self,
-            recipient,
+            recipient = os.environ["SMTP_RECIPIENT_EMAIL"],
             subject = os.environ["SMTP_SUBJECT"]
     ) -> None:
         self.smtp_server     = os.environ["SMTP_SERVER"]

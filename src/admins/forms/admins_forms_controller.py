@@ -7,7 +7,7 @@ from src.admins.forms.admins_forms_service import AdminsFormsService
 from src.admins.keyboards.inline.admins_inline_keyboards import AdminsInlineKeyboards
 from src.admins.keyboards.reply.admins_reply_keyboards import AdminsReplyKeyboards
 from src.users.keyboards.reply.users_reply_keyboards import UsersReplyKeyboards
-from src.users.users_service import UserService
+from src.users.users_service import UsersService
 from utils.RCS.controller import Controller
 from utils.lexicon.load_lexicon import load_lexicon
 
@@ -21,7 +21,7 @@ class AdminsFormsController(Controller):
         self.bot = Bot(token=self.TOKEN)
 
         self.admins_service: AdminsFormsService = AdminsFormsService()
-        self.users_service: UserService = UserService()
+        self.users_service: UsersService = UsersService()
 
         self.admins_reply_keyboards: AdminsReplyKeyboards = AdminsReplyKeyboards()
         self.admins_inline_keyboards: AdminsInlineKeyboards = AdminsInlineKeyboards()
@@ -77,7 +77,7 @@ class AdminsFormsController(Controller):
                         back_to_main_menu_btn
                     ])
 
-                photo = forms[0]['photo_id']
+                photo = forms[0]['photo']
 
                 msg_text = (f"{offset + 1} из {pages}\n\n"
                             f"<b>{forms[0]['full_name']}</b>\n\n"
@@ -120,19 +120,21 @@ class AdminsFormsController(Controller):
                                        admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
 
         try:
+            user = await self.users_service.get_user_chat_id_by_id(form_id)
+
+            chat_id = user[0]['tg_chat_id']
+
             form = await self.admins_service.accept_new_form(form_id)
 
             if form:
-                user = await self.users_service.get_user_chat_id_by_id(form_id)
+                await msg.answer(self.replicas['admin']['forms']['accept'])
 
                 await self.admins_get_new_forms(msg)
-
-                await msg.answer(self.replicas['admin']['forms']['accept'])
 
                 user_keyboard = await self.users_reply_keyboards.users_start_command_reply_keyboard()
 
                 await self.bot.send_message(
-                    chat_id=user[0]['tg_chat_id'],
+                    chat_id=chat_id,
                     text=self.replicas['user']['forms']['accept'],
                     reply_markup=user_keyboard
                 )

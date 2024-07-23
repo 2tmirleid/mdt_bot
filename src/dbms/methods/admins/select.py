@@ -14,7 +14,7 @@ class SelectAdmins:
         return f"""
                     SELECT _id,
                            phone, 
-                           photo_id,
+                           photo,
                            full_name, 
                            birth_date, 
                            city, 
@@ -39,7 +39,7 @@ class SelectAdmins:
 
     async def select_events(self, city: str, offset=0) -> str:
         return f"""SELECT _id,
-                         photo_id,
+                         photo,
                          title,
                          city,
                          description,

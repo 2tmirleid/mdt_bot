@@ -4,7 +4,7 @@ def create_users_model():
         tg_chat_id       VARCHAR(30)  UNIQUE,
         tg_username      VARCHAR(100) UNIQUE,
         phone            VARCHAR(12)  UNIQUE,
-        photo_id         VARCHAR(255),
+        photo            VARCHAR(255),
         full_name        VARCHAR(100),
         birth_date       VARCHAR(10),
         city             VARCHAR(50),

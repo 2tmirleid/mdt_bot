@@ -8,10 +8,38 @@ class UsersReplyKeyboards:
         self.lexicon = load_lexicon()
         self.buttons = self.lexicon.get("buttons")
 
+    async def users_to_main_panel_reply_keyboard(self) -> ReplyKeyboardMarkup:
+        return ReplyKeyboardMarkup(
+            keyboard=[
+                [KeyboardButton(text=self.buttons['user']['to_main_panel'])]
+            ],
+            resize_keyboard=True,
+            one_time_keyboard=True
+        )
+
     async def users_start_command_reply_keyboard(self) -> ReplyKeyboardMarkup:
         return ReplyKeyboardMarkup(
             keyboard=[
                 [KeyboardButton(text=self.buttons['user']['start'])]
+            ],
+            resize_keyboard=True,
+            one_time_keyboard=True
+        )
+
+    async def users_start_register_reply_keyboard(self) -> ReplyKeyboardMarkup:
+        return ReplyKeyboardMarkup(
+            keyboard=[
+                [KeyboardButton(text=self.buttons['user']['register']['start'])]
+            ],
+            resize_keyboard=True,
+            one_time_keyboard=True
+        )
+
+    async def users_send_phone_number_reply_keyboard(self) -> ReplyKeyboardMarkup:
+        return ReplyKeyboardMarkup(
+            keyboard=[
+                [KeyboardButton(text=self.buttons['user']['register']['phone'],
+                                request_contact=True)]
             ],
             resize_keyboard=True,
             one_time_keyboard=True

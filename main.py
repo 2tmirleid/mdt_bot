@@ -8,6 +8,8 @@ from src.admins.events import admins_events_router
 from src.admins.forms import admins_forms_router
 from src.dbms.models.events import create_events_model
 from src.dbms.models.users import create_users_model
+from src.users import users_router
+from src.users.auth import users_auth_router
 from utils.ibot_engine_factory.factory import IBotEngineFactory
 
 """Main app class"""
@@ -25,9 +27,12 @@ class Main:
                                      routers=[
                                          admins_router.router,
                                          admins_forms_router.router,
-                                         admins_events_router.router
+                                         admins_events_router.router,
+
+                                         users_router.router,
+                                         users_auth_router.router
                                      ])
-    
+
     async def start(self):
         await self.bot.launch()
 

@@ -36,6 +36,9 @@ class UsersAuthController(Controller):
     async def users_form_moderate(self, msg: Message) -> None:
         await msg.answer(self.replicas['general']['moderate'])
 
+    async def users_form_rejected(self, msg: Message) -> None:
+        await msg.answer(self.replicas['user']['forms']['reject'])
+
     async def users_already_registered(self, msg: Message) -> None:
         keyboard = await self.users_reply_keyboards.users_to_main_panel_reply_keyboard()
 

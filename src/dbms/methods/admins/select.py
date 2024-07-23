@@ -75,3 +75,6 @@ class SelectAdmins:
             FROM users_for_events
                 WHERE event_id = '{event_id}'
         """
+
+    async def select_event_activity_by_id(self, event_id) -> str:
+        return f"""SELECT is_active FROM events WHERE _id = '{event_id}'"""

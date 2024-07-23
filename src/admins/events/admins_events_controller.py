@@ -6,6 +6,7 @@ from src.admins.keyboards.inline.admins_inline_keyboards import AdminsInlineKeyb
 from src.admins.keyboards.reply.admins_reply_keyboards import AdminsReplyKeyboards
 from src.states.admins.events.admins_choose_events_city import AdminsChooseEventsCity
 from src.states.admins.events.create_events_state import CreateEventsState
+from src.states.admins.events.edit_events_state import EditEventsState
 from utils.RCS.controller import Controller
 from utils.lexicon.load_lexicon import load_lexicon
 from utils.validator import Validator
@@ -100,7 +101,7 @@ class AdminsEventsController(Controller):
                         back_to_main_menu_btn
                     ])
 
-                photo = events[0]['photo_id']
+                photo = events[0]['photo']
 
                 msg_text = (f"{offset + 1} из {pages}\n\n"
                             f"<b>{events[0]['title']}</b>\n\n"
@@ -338,3 +339,144 @@ class AdminsEventsController(Controller):
         count = await self.admins_service.get_users_count_for_event(event_id=event_id)
 
         return count[0][0]
+
+    async def admins_delete_event(self, msg: Message, state: FSMContext, event_id) -> None:
+        try:
+            delete = await self.admins_service.delete_event_by_id(event_id)
+
+            if delete:
+                await msg.answer(self.replicas['admin']['entities']['delete']['finish'])
+
+                await self.admins_get_events(msg, state)
+        except Exception as e:
+            print(f"Error while deleting event from controller: {e}")
+
+            back_to_main_menu_btn = await (self.admins_inline_keyboards.
+                                           admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+
+            await msg.answer(self.replicas['general']['error'],
+                             reply_markup=back_to_main_menu_btn)
+
+    async def admins_edit_event(self, msg: Message, state: FSMContext, event_id) -> None:
+        await state.set_state(EditEventsState.event_id)
+
+        await state.update_data(event_id=event_id)
+
+        edit_buttons = await self.admins_inline_keyboards.admins_edit_events_inline_keyboard()
+        back_to_main_menu_btn = await (self.admins_inline_keyboards.
+                                       admins_dynamic_entity_to_main_menu_panel_keyboard())
+
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            *edit_buttons,
+            back_to_main_menu_btn
+        ])
+
+        await msg.answer(self.replicas['admin']['entities']['edit']['property'],
+                         reply_markup=keyboard)
+
+    async def admins_edit_event_property(self, msg: Message, state: FSMContext, property: str) -> None:
+        back_to_main_menu_btn = await (self.admins_inline_keyboards.
+                                       admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+
+        if property == "is_active":
+            data = await state.get_data()
+
+            event_id = data.get("event_id")
+
+            await state.clear()
+
+            event_activity = await self.admins_service.change_event_activity(event_id=event_id)
+
+            if event_activity:
+                await msg.answer(self.replicas['admin']['entities']['edit']['finish'])
+
+                await self.admins_get_events(msg=msg, state=state)
+            else:
+                await msg.answer(self.replicas['general']['error'],
+                                 reply_markup=back_to_main_menu_btn)
+        else:
+            await state.update_data(property=property)
+
+            await msg.answer(self.replicas['admin']['entities']['edit']['value'],
+                             reply_markup=back_to_main_menu_btn)
+
+            await state.set_state(EditEventsState.value)
+
+    async def admins_edit_event_value(self, msg: Message, state: FSMContext) -> None:
+        back_to_main_menu_btn = await (self.admins_inline_keyboards.
+                                       admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+
+        data = await state.get_data()
+
+        event_id = data.get("event_id")
+        property = data.get("property")
+        value = ""
+
+        if property == "photo":
+            if msg.photo[-1].file_id:
+                value = msg.photo[-1].file_id
+        elif property == "event_date":
+            is_valid, result = await self.validator.validate_date(date=msg.text)
+
+            if not is_valid:
+                await msg.answer(result)
+                await msg.answer(self.replicas['admin']['entities']['edit']['value'],
+                                 reply_markup=back_to_main_menu_btn)
+
+                await state.set_state(EditEventsState.value)
+
+                return
+            else:
+                value = msg.text
+        elif property == "title":
+            is_valid, result = await self.validator.validate_title(title=msg.text)
+
+            if not is_valid:
+                await msg.answer(result)
+                await msg.answer(self.replicas['admin']['entities']['edit']['value'],
+                                 reply_markup=back_to_main_menu_btn)
+
+                await state.set_state(EditEventsState.value)
+
+                return
+            else:
+                value = msg.text
+
+        elif property == "description":
+            is_valid, result = await self.validator.validate_description(description=msg.text)
+
+            if not is_valid:
+                await msg.answer(result)
+                await msg.answer(self.replicas['admin']['entities']['edit']['value'],
+                                 reply_markup=back_to_main_menu_btn)
+
+                await state.set_state(EditEventsState.value)
+
+                return
+            else:
+                value = msg.text
+
+        elif property == "city":
+            is_valid, result = await self.validator.validate_city(city=msg.text)
+
+            if not is_valid:
+                await msg.answer(result)
+                await msg.answer(self.replicas['admin']['entities']['edit']['value'],
+                                 reply_markup=back_to_main_menu_btn)
+
+                await state.set_state(EditEventsState.value)
+
+                return
+            else:
+                value = msg.text
+
+        update_event = await self.admins_service.edit_event(
+            event_id=event_id, property=property, value=value
+        )
+        await state.clear()
+        if update_event:
+            await msg.answer(self.replicas['admin']['entities']['edit']['finish'],
+                             await self.admins_get_events(msg=msg, state=state))
+        else:
+            await msg.answer(self.replicas['general']['error'],
+                             reply_markup=back_to_main_menu_btn)

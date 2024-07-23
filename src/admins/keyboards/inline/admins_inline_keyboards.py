@@ -74,3 +74,27 @@ class AdminsInlineKeyboards:
         return [
             InlineKeyboardButton(text=export_btn_text, callback_data=export_btn_clb_data)
         ]
+
+    async def admins_edit_events_inline_keyboard(self) -> list:
+        photo_btn_text = self.buttons['admin']['main_panel']['edit']['events']['photo']
+        title_btn_text = self.buttons['admin']['main_panel']['edit']['events']['title']
+        city_btn_text = self.buttons['admin']['main_panel']['edit']['events']['city']
+        description_btn_text = self.buttons['admin']['main_panel']['edit']['events']['description']
+        event_date_btn_text = self.buttons['admin']['main_panel']['edit']['events']['event_date']
+        activity_btn_text = self.buttons['admin']['main_panel']['edit']['events']['is_active']
+
+        photo_btn_clb_data = self.callback_data['admin']['main_panel']['edit']['events']['photo']
+        title_btn_clb_data = self.callback_data['admin']['main_panel']['edit']['events']['title']
+        city_btn_clb_data = self.callback_data['admin']['main_panel']['edit']['events']['city']
+        description_btn_clb_data = self.callback_data['admin']['main_panel']['edit']['events']['description']
+        event_date_btn_clb_data = self.callback_data['admin']['main_panel']['edit']['events']['event_date']
+        activity_btn_clb_data = self.callback_data['admin']['main_panel']['edit']['events']['is_active']
+
+        return [
+            [InlineKeyboardButton(text=photo_btn_text, callback_data=photo_btn_clb_data),
+             InlineKeyboardButton(text=title_btn_text, callback_data=title_btn_clb_data),
+             InlineKeyboardButton(text=city_btn_text, callback_data=city_btn_clb_data)],
+            [InlineKeyboardButton(text=description_btn_text, callback_data=description_btn_clb_data),
+             InlineKeyboardButton(text=event_date_btn_text, callback_data=event_date_btn_clb_data),
+             InlineKeyboardButton(text=activity_btn_text, callback_data=activity_btn_clb_data)]
+        ]

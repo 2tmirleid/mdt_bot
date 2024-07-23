@@ -7,6 +7,7 @@ from src.admins.events.admins_events_controller import AdminsEventsController
 from src.middlewares.admins_middleware import AdminsMiddleware
 from src.states.admins.events.admins_choose_events_city import AdminsChooseEventsCity
 from src.states.admins.events.create_events_state import CreateEventsState
+from src.states.admins.events.edit_events_state import EditEventsState
 from utils.lexicon.load_lexicon import load_lexicon
 
 router: Router = Router()
@@ -192,3 +193,48 @@ async def process_admins_pagen_end_events(clb_query: CallbackQuery) -> None:
                                                  event_id=event_id,
                                                  offset=offset,
                                                  edit=True)
+
+
+@router.callback_query(lambda query: query.data.startswith("admins_delete_events"))
+async def process_admins_delete_event(clb_query: CallbackQuery, state: FSMContext) -> None:
+    event_id = str(clb_query.data.split("-")[1])
+
+    await admins_controller.admins_delete_event(clb_query.message, state, event_id)
+
+
+@router.callback_query(lambda query: query.data.startswith("admins_edit_events"))
+async def process_admins_edit_event(clb_query: CallbackQuery, state: FSMContext) -> None:
+    event_id = str(clb_query.data.split("-")[1])
+
+    await admins_controller.admins_edit_event(
+        msg=clb_query.message,
+        state=state,
+        event_id=event_id
+    )
+
+
+@router.callback_query(lambda query: any(
+    edit_action in query.data for edit_action in [
+        callback_data['admin']['main_panel']['edit']['events']['photo'],
+        callback_data['admin']['main_panel']['edit']['events']['title'],
+        callback_data['admin']['main_panel']['edit']['events']['description'],
+        callback_data['admin']['main_panel']['edit']['events']['event_date'],
+        callback_data['admin']['main_panel']['edit']['events']['city'],
+        callback_data['admin']['main_panel']['edit']['events']['is_active']
+    ]
+))
+async def process_admins_edit_event_property(clb_query: CallbackQuery, state: FSMContext) -> None:
+    property = str(clb_query.data.split("-")[1])
+
+    await admins_controller.admins_edit_event_property(
+        msg=clb_query.message,
+        state=state,
+        property=property
+    )
+
+
+@router.message(StateFilter(
+    EditEventsState.value
+), F.photo | F.text)
+async def process_admins_edit_event_value(msg: Message, state: FSMContext) -> None:
+    await admins_controller.admins_edit_event_value(msg=msg, state=state)

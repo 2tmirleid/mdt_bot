@@ -8,6 +8,12 @@ replicas:
     date_pattern: "Введен неверный формат даты (ГГГГ-ММ-ДД)"
   admin:
     entities:
+      edit:
+        finish: "Успешно изменено!"
+        property: "Выберите поле, которое нужно изменить"
+        value: "Отправьте новое значение"
+      delete:
+        finish: "Успешно удалено!"
       create:
         photo: "Отправьте фото"
         title: "Отправьте название"
@@ -70,6 +76,14 @@ buttons:
           saransk: "Саранск"
           moscow: "Москва"
         export: "Записавшиеся"
+      edit:
+        events:
+          photo: "Фото"
+          title: "Название"
+          city: "Город"
+          description: "Описание"
+          event_date: "Дата проведения"
+          is_active: "Активность"
     forms:
       accept: "Подтвердить"
       reject: "Отклонить"
@@ -104,4 +118,12 @@ callback_data:
         city:
           saransk: "admins_add_city-saransk"
           moscow: "admins_add_city-moscow"
+      edit:
+        events:
+          photo: "admins_edit_event-photo"
+          title: "admins_edit_event-title"
+          city: "admins_edit_event-city"
+          description: "admins_edit_event-description"
+          event_date: "admins_edit_event-event_date"
+          is_active: "admins_edit_event-is_active"
 

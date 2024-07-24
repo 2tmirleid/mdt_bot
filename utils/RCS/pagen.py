@@ -42,4 +42,30 @@ class Pagen:
             return buttons
 
     async def build_users_pagen(self, pages: int, callback_data: str, offset=0) -> list:
-        pass
+        if pages > 0:
+            buttons = []
+
+            backward_btn_text = self.buttons['pagen']['backward']
+            next_btn_text = self.buttons['pagen']['next']
+
+            start_btn_text = self.buttons['pagen']['start']
+            end_btn_text = self.buttons['pagen']['end']
+
+            backward_clb_data = self.callback_data['user']['pagen']['backward'] + callback_data
+            next_clb_data = self.callback_data['user']['pagen']['next'] + callback_data
+
+            start_clb_data = self.callback_data['user']['pagen']['start'] + callback_data
+            end_clb_data = self.callback_data['user']['pagen']['end'] + callback_data
+
+            if offset > 0:
+                buttons.append(InlineKeyboardButton(text=start_btn_text,
+                                                    callback_data=start_clb_data))
+                buttons.append(InlineKeyboardButton(text=backward_btn_text,
+                                                    callback_data=backward_clb_data))
+            if pages > offset + 1:
+                buttons.append(InlineKeyboardButton(text=next_btn_text,
+                                                    callback_data=next_clb_data))
+                buttons.append(InlineKeyboardButton(text=end_btn_text,
+                                                    callback_data=end_clb_data))
+
+            return buttons

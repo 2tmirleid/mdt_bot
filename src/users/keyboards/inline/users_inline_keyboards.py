@@ -86,3 +86,25 @@ class UsersInlineKeyboards:
                 InlineKeyboardButton(text=expertise_btn_text, callback_data=expertise_btn_clb_data)
             ]
         ]
+
+    async def users_get_search_property(self) -> list:
+        full_name_btn_text = self.buttons['user']['residents']['full_name']
+        resources_btn_text = self.buttons['user']['residents']['resources']
+        city_btn_text = self.buttons['user']['residents']['city']
+        company_btn_text = self.buttons['user']['residents']['company']
+
+        full_name_btn_clb_data = self.callback_data['user']['residents']['full_name']
+        resources_btn_clb_data = self.callback_data['user']['residents']['resources']
+        city_btn_clb_data = self.callback_data['user']['residents']['city']
+        company_btn_clb_data = self.callback_data['user']['residents']['company']
+
+        return [
+            [
+                InlineKeyboardButton(text=full_name_btn_text, callback_data=full_name_btn_clb_data),
+                InlineKeyboardButton(text=resources_btn_text, callback_data=resources_btn_clb_data)
+            ],
+            [
+                InlineKeyboardButton(text=city_btn_text, callback_data=city_btn_clb_data),
+                InlineKeyboardButton(text=company_btn_text, callback_data=company_btn_clb_data)
+            ]
+        ]

@@ -25,3 +25,24 @@ class SelectUsers:
                           expertise
                     FROM users
                         WHERE tg_chat_id = '{chat_id}'"""
+
+    async def select_residents(self, property: str, value: str, offset=0) -> str:
+        return f"""SELECT tg_username,
+                          photo,
+                          phone,
+                          full_name,
+                          birth_date,
+                          city,
+                          company,
+                          position,
+                          rm_status,
+                          hobbies,
+                          resources,
+                          expertise,
+                          COUNT (_id) OVER() as count
+                    FROM users
+                     WHERE LOWER({property}) 
+                     LIKE LOWER('%{value}%')
+                     ORDER BY _id
+                     LIMIT 1 
+                     OFFSET {offset}"""

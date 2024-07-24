@@ -60,6 +60,9 @@ replicas:
         property: "Выберите поле, которое нужно изменить"
         value: "Отправьте новое значение"
         finish: "Успешно изменено!"
+    residents:
+      main: "Добро пожаловать в базу МДТ! Вы можете найти любого участника, написав: ФИО, город, экспертизу или специфику деятельности."
+      value: "Введите поисковой запрос"
 
 
 buttons:
@@ -128,7 +131,11 @@ buttons:
       ceo: "Исп. директор"
       moderator: "Модератор форум-групп"
       call: "Связаться"
-
+    residents:
+      full_name: "ФИО"
+      resources: "Ресурсы"
+      city: "Город"
+      company: "Компания"
 
 
 callback_data:
@@ -163,6 +170,11 @@ callback_data:
           event_date: "admins_edit_event-event_date"
           is_active: "admins_edit_event-is_active"
   user:
+    pagen:
+      backward: "users_pagen_backward"
+      next: "users_pagen_next"
+      start: "users_pagen_start"
+      end: "users_pagen_end"
     to_main_panel: "users_get_main_menu"
     profile:
       edit:
@@ -178,3 +190,8 @@ callback_data:
         hobbies: "users_edit-hobbies"
         resources: "users_edit-resources"
         expertise: "users_edit-expertise"
+    residents:
+      full_name: "users_search-full_name"
+      resources: "users_search-resources"
+      city: "users_search-city"
+      company: "users_search-company"

@@ -12,6 +12,7 @@ from src.users import users_router
 from src.users.about import users_about_router
 from src.users.auth import users_auth_router
 from src.users.contacts import users_contacts_router
+from src.users.residents import users_residents_router
 from utils.ibot_engine_factory.factory import IBotEngineFactory
 
 """Main app class"""
@@ -34,7 +35,8 @@ class Main:
                                          users_router.router,
                                          users_auth_router.router,
                                          users_about_router.router,
-                                         users_contacts_router.router
+                                         users_contacts_router.router,
+                                         users_residents_router.router
                                      ])
 
     async def start(self):

@@ -3,7 +3,6 @@ from aiogram.filters import CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from src.middlewares.users_already_auth_middleware import UsersAlreadyAuthMiddleware
 from src.middlewares.users_auth_middleware import UsersAuthMiddleware
 from src.middlewares.users_moderate_auth_middleware import UsersModerateAuthMiddleware
 from src.states.users.users_edit_profile_state import UsersEditProfileState

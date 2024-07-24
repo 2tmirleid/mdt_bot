@@ -190,7 +190,7 @@ callback_data:
         main: "users_edit_profile"
         photo: "users_edit-photo"
         phone: "users_edit-phone"
-        full_name: "users_edite-full_name"
+        full_name: "users_edit-full_name"
         birth_date: "users_edit-birth_date"
         city: "users_edit-city"
         company: "users_edit-company"

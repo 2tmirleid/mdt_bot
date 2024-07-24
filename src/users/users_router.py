@@ -24,7 +24,9 @@ router.message.middleware(UsersModerateAuthMiddleware())
 
 
 @router.message(CommandStart())
-async def process_users_get_started(msg: Message) -> None:
+async def process_users_get_started(msg: Message, state: FSMContext) -> None:
+    await state.clear()
+
     await users_controller.users_get_started(msg)
 
 
@@ -41,7 +43,9 @@ async def process_users_get_main_menu_panel(event: Message | CallbackQuery, stat
 
 
 @router.message(F.text == buttons['user']['main_panel']['profile'])
-async def process_users_get_profile(msg: Message) -> None:
+async def process_users_get_profile(msg: Message, state: FSMContext) -> None:
+    await state.clear()
+
     await users_controller.users_get_profile(msg)
 
 
@@ -74,6 +78,8 @@ async def process_users_edit_profile(clb_query: CallbackQuery, state: FSMContext
 async def process_users_edit_profile_property(clb_query: CallbackQuery, state: FSMContext) -> None:
     property = str(clb_query.data.split("-")[1])
 
+    print(property)
+
     await users_controller.users_get_edit_profile_property(
         msg=clb_query.message,
         state=state,
@@ -83,6 +89,6 @@ async def process_users_edit_profile_property(clb_query: CallbackQuery, state: F
 
 @router.message(StateFilter(
     UsersEditProfileState.value
-), F.text)
+), F.text | F.photo)
 async def process_users_edit_profile_value(msg: Message, state: FSMContext) -> None:
     await users_controller.users_get_edit_profile_value(msg, state)

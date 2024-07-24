@@ -105,165 +105,162 @@ class UsersController(Controller):
         await state.set_state(UsersEditProfileState.value)
 
     async def users_get_edit_profile_value(self, msg: Message, state: FSMContext) -> None:
-        back_to_main_menu_btn = await (self.users_inline_keyboards.
-                                       users_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+        try:
+            back_to_main_menu_btn = await (self.users_inline_keyboards.
+                                           users_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
 
-        data = await state.get_data()
+            data = await state.get_data()
 
-        tg_chat_id = data.get("tg_chat_id")
-        property = data.get("property")
-        value = ""
+            tg_chat_id = data.get("tg_chat_id")
+            property = data.get("property")
+            value = ""
 
-        if property == "photo":
-            if msg.photo[-1].file_id:
-                value = msg.photo[-1].file_id
-        elif property == "birth_date":
-            is_valid, result = await self.validator.validate_date(date=msg.text)
+            if property == "photo":
+                if msg.photo[-1].file_id is not None:
+                    value = msg.photo[-1].file_id
+                else:
+                    print("no photo")
+            elif property == "birth_date":
+                is_valid, result = await self.validator.validate_date(date=msg.text)
 
-            if not is_valid:
-                await msg.answer(result)
-                await msg.answer(self.replicas['user']['edit']['value'],
-                                 reply_markup=back_to_main_menu_btn)
+                if not is_valid:
+                    await msg.answer(result)
+                    await msg.answer(self.replicas['user']['edit']['value'],
+                                     reply_markup=back_to_main_menu_btn)
 
-                await state.set_state(UsersEditProfileState.value)
+                    await state.set_state(UsersEditProfileState.value)
 
-                return
+                    return
+                else:
+                    value = msg.text
+            elif property == "full_name":
+                is_valid, result = await self.validator.validate_full_name(full_name=msg.text)
+
+                if not is_valid:
+                    await msg.answer(result)
+                    await msg.answer(self.replicas['user']['edit']['value'],
+                                     reply_markup=back_to_main_menu_btn)
+
+                    await state.set_state(UsersEditProfileState.value)
+
+                    return
+                else:
+                    value = msg.text
+
+            elif property == "city":
+                is_valid, result = await self.validator.validate_users_city(city=msg.text)
+
+                if not is_valid:
+                    await msg.answer(result)
+                    await msg.answer(self.replicas['user']['edit']['value'],
+                                     reply_markup=back_to_main_menu_btn)
+
+                    await state.set_state(UsersEditProfileState.value)
+
+                    return
+                else:
+                    value = msg.text
+
+            elif property == "company":
+                is_valid, result = await self.validator.validate_company(company=msg.text)
+
+                if not is_valid:
+                    await msg.answer(result)
+                    await msg.answer(self.replicas['user']['edit']['value'],
+                                     reply_markup=back_to_main_menu_btn)
+
+                    await state.set_state(UsersEditProfileState.value)
+
+                    return
+                else:
+                    value = msg.text
+
+            elif property == "position":
+                is_valid, result = await self.validator.validate_position(position=msg.text)
+
+                if not is_valid:
+                    await msg.answer(result)
+                    await msg.answer(self.replicas['user']['edit']['value'],
+                                     reply_markup=back_to_main_menu_btn)
+
+                    await state.set_state(UsersEditProfileState.value)
+
+                    return
+                else:
+                    value = msg.text
+
+            elif property == "rm_status":
+                is_valid, result = await self.validator.validate_rm_status(status=msg.text)
+
+                if not is_valid:
+                    await msg.answer(result)
+                    await msg.answer(self.replicas['user']['edit']['value'],
+                                     reply_markup=back_to_main_menu_btn)
+
+                    await state.set_state(UsersEditProfileState.value)
+
+                    return
+                else:
+                    value = msg.text
+
+            elif property == "hobbies":
+                is_valid, result = await self.validator.validate_hobbies(hobbies=msg.text)
+
+                if not is_valid:
+                    await msg.answer(result)
+                    await msg.answer(self.replicas['user']['edit']['value'],
+                                     reply_markup=back_to_main_menu_btn)
+
+                    await state.set_state(UsersEditProfileState.value)
+
+                    return
+                else:
+                    value = msg.text
+
+            elif property == "resources":
+                is_valid, result = await self.validator.validate_resources(resources=msg.text)
+
+                if not is_valid:
+                    await msg.answer(result)
+                    await msg.answer(self.replicas['user']['edit']['value'],
+                                     reply_markup=back_to_main_menu_btn)
+
+                    await state.set_state(UsersEditProfileState.value)
+
+                    return
+                else:
+                    value = msg.text
+
+            elif property == "expertise":
+                is_valid, result = await self.validator.validate_expertise(expertise=msg.text)
+
+                if not is_valid:
+                    await msg.answer(result)
+                    await msg.answer(self.replicas['user']['edit']['value'],
+                                     reply_markup=back_to_main_menu_btn)
+
+                    await state.set_state(UsersEditProfileState.value)
+
+                    return
+                else:
+                    value = msg.text
+
+            update_profile = await self.users_service.edit_profile(
+                chat_id=tg_chat_id, property=property, value=value
+            )
+            await state.clear()
+
+            if update_profile:
+                await msg.answer(self.replicas['user']['edit']['finish'],
+                                 await self.users_get_profile(msg=msg))
             else:
-                value = msg.text
-        elif property == "full_name":
-            is_valid, result = await self.validator.validate_full_name(full_name=msg.text)
-
-            if not is_valid:
-                await msg.answer(result)
-                await msg.answer(self.replicas['user']['edit']['value'],
+                await msg.answer(self.replicas['general']['error'],
                                  reply_markup=back_to_main_menu_btn)
+        except Exception as e:
+            print(f"Error while editing profile by user: {e}")
 
-                await state.set_state(UsersEditProfileState.value)
+            back_to_main_menu_btn = await (self.users_inline_keyboards.
+                                           users_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
 
-                return
-            else:
-                value = msg.text
-
-        # elif property == "phone":
-        #     is_valid, result = await self.validator.validate_description(description=msg.text)
-        #
-        #     if not is_valid:
-        #         await msg.answer(result)
-        #         await msg.answer(self.replicas['admin']['entities']['edit']['value'],
-        #                          reply_markup=back_to_main_menu_btn)
-        #
-        #         await state.set_state(EditEventsState.value)
-        #
-        #         return
-        #     else:
-        #         value = msg.text
-
-        elif property == "city":
-            is_valid, result = await self.validator.validate_city(city=msg.text)
-
-            if not is_valid:
-                await msg.answer(result)
-                await msg.answer(self.replicas['user']['edit']['value'],
-                                 reply_markup=back_to_main_menu_btn)
-
-                await state.set_state(UsersEditProfileState.value)
-
-                return
-            else:
-                value = msg.text
-
-        elif property == "company":
-            is_valid, result = await self.validator.validate_company(company=msg.text)
-
-            if not is_valid:
-                await msg.answer(result)
-                await msg.answer(self.replicas['user']['edit']['value'],
-                                 reply_markup=back_to_main_menu_btn)
-
-                await state.set_state(UsersEditProfileState.value)
-
-                return
-            else:
-                value = msg.text
-
-        elif property == "position":
-            is_valid, result = await self.validator.validate_position(position=msg.text)
-
-            if not is_valid:
-                await msg.answer(result)
-                await msg.answer(self.replicas['user']['edit']['value'],
-                                 reply_markup=back_to_main_menu_btn)
-
-                await state.set_state(UsersEditProfileState.value)
-
-                return
-            else:
-                value = msg.text
-
-        elif property == "rm_status":
-            is_valid, result = await self.validator.validate_rm_status(status=msg.text)
-
-            if not is_valid:
-                await msg.answer(result)
-                await msg.answer(self.replicas['user']['edit']['value'],
-                                 reply_markup=back_to_main_menu_btn)
-
-                await state.set_state(UsersEditProfileState.value)
-
-                return
-            else:
-                value = msg.text
-
-        elif property == "hobbies":
-            is_valid, result = await self.validator.validate_hobbies(hobbies=msg.text)
-
-            if not is_valid:
-                await msg.answer(result)
-                await msg.answer(self.replicas['user']['edit']['value'],
-                                 reply_markup=back_to_main_menu_btn)
-
-                await state.set_state(UsersEditProfileState.value)
-
-                return
-            else:
-                value = msg.text
-
-        elif property == "resources":
-            is_valid, result = await self.validator.validate_resources(resources=msg.text)
-
-            if not is_valid:
-                await msg.answer(result)
-                await msg.answer(self.replicas['user']['edit']['value'],
-                                 reply_markup=back_to_main_menu_btn)
-
-                await state.set_state(UsersEditProfileState.value)
-
-                return
-            else:
-                value = msg.text
-
-        elif property == "expertise":
-            is_valid, result = await self.validator.validate_expertise(expertise=msg.text)
-
-            if not is_valid:
-                await msg.answer(result)
-                await msg.answer(self.replicas['user']['edit']['value'],
-                                 reply_markup=back_to_main_menu_btn)
-
-                await state.set_state(UsersEditProfileState.value)
-
-                return
-            else:
-                value = msg.text
-
-        update_profile = await self.users_service.edit_profile(
-            chat_id=tg_chat_id, property=property, value=value
-        )
-        await state.clear()
-
-        if update_profile:
-            await msg.answer(self.replicas['user']['edit']['finish'],
-                             await self.users_get_profile(msg=msg))
-        else:
             await msg.answer(self.replicas['general']['error'],
                              reply_markup=back_to_main_menu_btn)

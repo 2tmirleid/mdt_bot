@@ -1,3 +1,4 @@
+from src.dbms.connection import conn
 from src.dbms.methods.users.select import SelectUsers
 from src.dbms.methods.users.update import UpdateUsers
 from utils.RCS.service import Service
@@ -39,4 +40,5 @@ class UsersService(Service):
             return True
         except Exception as e:
             print(f"Error while updating user from db: {e}")
+            await conn.rollback()
             return False

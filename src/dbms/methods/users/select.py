@@ -46,3 +46,43 @@ class SelectUsers:
                      ORDER BY _id
                      LIMIT 1 
                      OFFSET {offset}"""
+
+    async def select_active_events_count(self, city: str) -> str:
+        return f"""
+            SELECT COUNT ( * )
+                FROM events
+                    WHERE is_active = '1'
+                        AND city = '{city}'
+        """
+
+    async def select_active_events(self, city: str, offset=0) -> str:
+        return f"""
+            SELECT _id,
+                   photo,
+                   title,
+                   description,
+                   city,
+                   event_date
+                FROM events
+                WHERE is_active = '1'
+                    AND city = '{city}'
+                ORDER BY _id
+                LIMIT 1
+                offset {offset}
+        """
+
+    async def select_user_id_by_chat_id(self, chat_id) -> str:
+        return f"""
+            SELECT _id 
+            FROM users
+                WHERE tg_chat_id = '{chat_id}'
+        """
+
+    async def select_is_user_for_event(self, user_id, event_id) -> str:
+        return f"""
+            SELECT user_id,
+                   event_id
+                FROM users_for_events
+                WHERE user_id = '{user_id}'
+                    AND event_id = '{event_id}'
+        """

@@ -80,7 +80,7 @@ class UsersResidentsController(Controller):
                     )
 
                     call_btn = [
-                        InlineKeyboardButton(text="Написать",
+                        InlineKeyboardButton(text="Написать ✍",
                                              url=f"https://t.me/{residents[0]['tg_username']}/")
                     ]
 

@@ -7,3 +7,4 @@ class UpdateUsers:
 
     async def update_profile(self, chat_id, property, value) -> str:
         return f"""UPDATE users SET {property} = '{value}' WHERE tg_chat_id = '{chat_id}'"""
+

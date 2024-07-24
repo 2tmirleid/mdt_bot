@@ -34,3 +34,14 @@ class InsertUsers:
                     '{user['expertise']}'
                 )
         """
+
+    async def insert_user_for_event(self, user_id, event_id) -> str:
+        return f"""
+            INSERT INTO users_for_events (
+                        user_id, 
+                        event_id) 
+                        VALUES (
+                            '{user_id}',
+                            '{event_id}'
+                        )
+        """

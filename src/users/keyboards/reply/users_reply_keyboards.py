@@ -74,3 +74,14 @@ class UsersReplyKeyboards:
                  KeyboardButton(text=self.buttons['user']['contacts']['ceo']),
                  KeyboardButton(text=self.buttons['user']['contacts']['moderator'])
             ]
+
+    async def users_events_city_panel_keyboard(self) -> ReplyKeyboardMarkup:
+        return ReplyKeyboardMarkup(
+            keyboard=[
+                [KeyboardButton(text=self.buttons['user']['main_panel']['events']['city']['saransk']),
+                 KeyboardButton(text=self.buttons['user']['main_panel']['events']['city']['moscow'])],
+                [KeyboardButton(text=self.buttons['user']['to_main_panel'])]
+            ],
+            resize_keyboard=True,
+            one_time_keyboard=True
+        )

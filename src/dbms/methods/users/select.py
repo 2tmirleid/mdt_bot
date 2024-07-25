@@ -8,8 +8,19 @@ class SelectUsers:
     async def select_user_by_chat_id(self, user_id) -> str:
         return f"""SELECT tg_chat_id, is_approved, is_rejected FROM users WHERE tg_chat_id = '{user_id}'"""
 
+    # async def select_user_by_phone(self, phone) -> str:
+    #     return f"""SELECT phone FROM users WHERE phone = '{phone}' AND is_approved = '1'"""
+
     async def select_user_by_phone(self, phone) -> str:
-        return f"""SELECT phone FROM users WHERE phone = '{phone}' AND is_approved = '1'"""
+        # Удаляем префикс +7, 7 или 8
+        if phone.startswith('+7'):
+            phone = phone[2:]  # Убираем +7
+        elif phone.startswith('7') or phone.startswith('8'):
+            phone = phone[1:]  # Убираем 7 или 8
+
+        query = f"""SELECT phone FROM users WHERE RIGHT(phone, LENGTH(phone) - CASE WHEN phone LIKE '+7%' THEN 2 ELSE 1 END) = '{phone}' AND is_approved = '1'"""
+
+        return query
 
     async def select_user_profile_by_chat_id(self, chat_id) -> str:
         return f"""SELECT phone,

@@ -5,7 +5,7 @@ class InsertAdmins:
     async def insert_event(self, event: dict) -> str:
         return f"""
             INSERT INTO events 
-                (photo_id, 
+                (photo, 
                 title, 
                 city, 
                 description, 

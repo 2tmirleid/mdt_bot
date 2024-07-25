@@ -39,6 +39,14 @@ class AdminsInlineKeyboards:
              InlineKeyboardButton(text=reject_btn_text, callback_data=reject_btn_clb_data)]
         ]
 
+    async def admins_dynamic_create_inline_keyboard(self, callback_data: str) -> list:
+        add_btn_text = self.buttons['admin']['general']['add']
+        add_btn_clb_data = self.callback_data['admin']['general']['add'] + callback_data.rsplit("-", 1)[0]
+
+        return [
+            InlineKeyboardButton(text=add_btn_text, callback_data=add_btn_clb_data)
+        ]
+
     async def admins_dynamic_entity_keyboard(self, callback_data: str) -> list:
         add_btn_text = self.buttons['admin']['general']['add']
         edit_btn_text = self.buttons['admin']['general']['edit']['main']
@@ -54,12 +62,24 @@ class AdminsInlineKeyboards:
             InlineKeyboardButton(text=delete_btn_text, callback_data=delete_btn_clb_data)
         ]
 
-    async def admins_events_city_inline_keyboard(self) -> list:
+    async def admins_events_add_city_inline_keyboard(self) -> list:
         saransk_btn_text = self.buttons['admin']['main_panel']['events']['city']['saransk']
         moscow_btn_text = self.buttons['admin']['main_panel']['events']['city']['moscow']
 
-        saransk_btn_clb_data = self.callback_data['admin']['main_panel']['events']['city']['saransk']
-        moscow_btn_clb_data = self.callback_data['admin']['main_panel']['events']['city']['moscow']
+        saransk_btn_clb_data = self.callback_data['admin']['main_panel']['events']['city']['add']['saransk']
+        moscow_btn_clb_data = self.callback_data['admin']['main_panel']['events']['city']['add']['moscow']
+
+        return [
+            [InlineKeyboardButton(text=saransk_btn_text, callback_data=saransk_btn_clb_data),
+             InlineKeyboardButton(text=moscow_btn_text, callback_data=moscow_btn_clb_data)]
+        ]
+
+    async def admins_events_edit_city_inline_keyboard(self) -> list:
+        saransk_btn_text = self.buttons['admin']['main_panel']['events']['city']['saransk']
+        moscow_btn_text = self.buttons['admin']['main_panel']['events']['city']['moscow']
+
+        saransk_btn_clb_data = self.callback_data['admin']['main_panel']['events']['city']['edit']['saransk']
+        moscow_btn_clb_data = self.callback_data['admin']['main_panel']['events']['city']['edit']['moscow']
 
         return [
             [InlineKeyboardButton(text=saransk_btn_text, callback_data=saransk_btn_clb_data),

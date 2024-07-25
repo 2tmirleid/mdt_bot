@@ -28,6 +28,7 @@ class AdminsEventsController(Controller):
 
         self.city = None
         self.event_id = None
+        self.sent_city_id = None
 
     async def admins_get_events_count(self, city: str) -> int:
         count = await self.admins_service.get_events_count(city=city)
@@ -120,10 +121,18 @@ class AdminsEventsController(Controller):
                                            parse_mode="HTML")
             else:
                 back_to_main_menu_btn = await (self.admins_inline_keyboards.
-                                               admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+                                               admins_dynamic_entity_to_main_menu_panel_keyboard())
+                add_btn = await self.admins_inline_keyboards.admins_dynamic_create_inline_keyboard("_events")
+
+                keyboard = InlineKeyboardMarkup(
+                    inline_keyboard=[
+                        add_btn,
+                        back_to_main_menu_btn
+                    ]
+                )
 
                 await msg.answer(self.replicas['admin']['other']['empty'],
-                                 reply_markup=back_to_main_menu_btn)
+                                 reply_markup=keyboard)
         except Exception as e:
             print(f"Error while getting events by admin: {e}")
 
@@ -211,7 +220,7 @@ class AdminsEventsController(Controller):
             back_to_main_menu_btn = await (self.admins_inline_keyboards.
                                            admins_dynamic_entity_to_main_menu_panel_keyboard())
 
-            buttons = await self.admins_inline_keyboards.admins_events_city_inline_keyboard()
+            buttons = await self.admins_inline_keyboards.admins_events_add_city_inline_keyboard()
 
             keyboard = InlineKeyboardMarkup(
                 inline_keyboard=[
@@ -221,19 +230,25 @@ class AdminsEventsController(Controller):
 
             await state.update_data(event_date=msg.text)
 
-            await msg.answer(self.replicas['admin']['entities']['create']['city'],
-                             reply_markup=keyboard)
+            sent_city = await msg.answer(self.replicas['admin']['entities']['create']['city'],
+                                         reply_markup=keyboard)
+
+            self.sent_city_id = sent_city.message_id
 
             await state.set_state(CreateEventsState.city)
 
     async def admins_add_event_finish(self, msg: Message, state: FSMContext, city: str) -> None:
         is_valid, result = await self.validator.validate_city(city=city)
 
+        city_msg_id = self.sent_city_id
+
+        await msg.bot.delete_message(chat_id=msg.chat.id, message_id=city_msg_id)
+
         if not is_valid:
             back_to_main_menu_btn = await (self.admins_inline_keyboards.
                                            admins_dynamic_entity_to_main_menu_panel_keyboard())
 
-            buttons = await self.admins_inline_keyboards.admins_events_city_inline_keyboard()
+            buttons = await self.admins_inline_keyboards.admins_events_add_city_inline_keyboard()
 
             keyboard = InlineKeyboardMarkup(
                 inline_keyboard=[
@@ -457,18 +472,39 @@ class AdminsEventsController(Controller):
                 value = msg.text
 
         elif property == "city":
-            is_valid, result = await self.validator.validate_city(city=msg.text)
+            city = None
+
+            if data.get("value") is not None:
+                city = data.get("value")
+            else:
+                city = msg.text
+
+            is_valid, result = await self.validator.validate_city(city=city)
 
             if not is_valid:
+                back_to_main_menu_btn = await (self.admins_inline_keyboards.
+                                               admins_dynamic_entity_to_main_menu_panel_keyboard())
+
+                cities_buttons = await self.admins_inline_keyboards.admins_events_edit_city_inline_keyboard()
+
+                keyboard = InlineKeyboardMarkup(
+                    inline_keyboard=[
+                        *cities_buttons,
+                        back_to_main_menu_btn
+                    ]
+                )
+
                 await msg.answer(result)
                 await msg.answer(self.replicas['admin']['entities']['edit']['value'],
-                                 reply_markup=back_to_main_menu_btn)
+                                 reply_markup=keyboard)
 
                 await state.set_state(EditEventsState.value)
 
                 return
             else:
-                value = msg.text
+                value = city
+
+        print(value)
 
         update_event = await self.admins_service.edit_event(
             event_id=event_id, property=property, value=value

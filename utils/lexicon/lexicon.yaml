@@ -168,8 +168,12 @@ callback_data:
     main_panel:
       events:
         city:
-          saransk: "admins_add_city-saransk"
-          moscow: "admins_add_city-moscow"
+          add:
+            saransk: "admins_add_city-saransk"
+            moscow: "admins_add_city-moscow"
+          edit:
+            saransk: "admins_edit_city-saransk"
+            moscow: "admins_edit_city-moscow"
       edit:
         events:
           photo: "admins_edit_event-photo"

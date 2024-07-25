@@ -118,8 +118,8 @@ async def process_admins_add_event_city(msg: Message, state: FSMContext) -> None
 
 @router.callback_query(lambda query: any(
     city in query.data for city in [
-        callback_data['admin']['main_panel']['events']['city']['saransk'],
-        callback_data['admin']['main_panel']['events']['city']['moscow'],
+        callback_data['admin']['main_panel']['events']['city']['add']['saransk'],
+        callback_data['admin']['main_panel']['events']['city']['add']['moscow'],
     ]
 ))
 @router.message(StateFilter(CreateEventsState.city), F.text)
@@ -233,8 +233,40 @@ async def process_admins_edit_event_property(clb_query: CallbackQuery, state: FS
     )
 
 
+# @router.callback_query(lambda query: any(
+#     edit_action in query.data for edit_action in [
+#         callback_data['admin']['main_panel']['events']['city']['edit']['saransk'],
+#         callback_data['admin']['main_panel']['events']['city']['edit']['moscow']
+#     ]
+# ))
+# async def process_admins_edit_event_city(clb_query: CallbackQuery, state: FSMContext) -> None:
+#     clb_data = str(clb_query.data.split("-")[1])
+#
+#     city = "Саранск" if clb_data == "saransk" else "Москва"
+#
+#     await state.update_data(value=city)
+#
+#     await admins_controller.admins_edit_event_value(msg=clb_query.message, state=state)
+
+
+@router.callback_query(lambda query: any(
+    edit_action in query.data for edit_action in [
+        callback_data['admin']['main_panel']['events']['city']['edit']['saransk'],
+        callback_data['admin']['main_panel']['events']['city']['edit']['moscow']
+    ]
+))
 @router.message(StateFilter(
     EditEventsState.value
 ), F.photo | F.text)
-async def process_admins_edit_event_value(msg: Message, state: FSMContext) -> None:
-    await admins_controller.admins_edit_event_value(msg=msg, state=state)
+async def process_admins_edit_event_value(event: Message | CallbackQuery, state: FSMContext) -> None:
+    if isinstance(event, Message):
+        await admins_controller.admins_edit_event_value(msg=event, state=state)
+
+    if isinstance(event, CallbackQuery):
+        clb_data = str(event.data.split("-")[1])
+
+        city = "Саранск" if clb_data == "saransk" else "Москва"
+
+        await state.update_data(value=city)
+
+        await admins_controller.admins_edit_event_value(msg=event.message, state=state)

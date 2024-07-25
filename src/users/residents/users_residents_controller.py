@@ -94,16 +94,16 @@ class UsersResidentsController(Controller):
                     photo = residents[0]['photo']
 
                     msg_text = (f"{offset + 1} из {pages}\n\n"
-                                f"<b>{residents[0]['full_name']}</b>\n\n"
-                                f"Компания:\n{residents[0]['company']}\n\n"
-                                f"Должность:\n{residents[0]['position']}\n\n"
-                                f"Город: {residents[0]['city']}\n\n"
-                                f"Отношение к РМ:\n{residents[0]['rm_status']}\n\n"
-                                f"Хобби:\n{residents[0]['hobbies']}\n\n"
-                                f"Ресурсы:\n{residents[0]['resources']}\n\n"
-                                f"Экспертиза:\n{residents[0]['expertise']}\n\n"
-                                f"Дата рождения: <i>{residents[0]['birth_date']}</i>\n\n"
-                                f"Телефон: {residents[0]['phone']}")
+                                f"<b>{residents[0]['full_name'] + '\n\n' if residents[0]['full_name'] is not None else ''}</b>"
+                                f"{'Компания:\n' + residents[0]['company'] + '\n\n' if residents[0]['company'] is not None else ''}"
+                                f"{'Должность:\n' + residents[0]['position'] + '\n\n' if residents[0]['position'] is not None else ''}"
+                                f"{'Город: ' + residents[0]['city'] + '\n\n' if residents[0]['city'] is not None else ''}"
+                                f"{'Отношение к РМ:\n' + residents[0]['rm_status'] + '\n\n' if residents[0]['rm_status'] is not None else ''}"
+                                f"{'Хобби:\n' + residents[0]['hobbies'] + '\n\n' if residents[0]['hobbies'] is not None else ''}"
+                                f"{'Ресурсы:\n' + residents[0]['resources'] + '\n\n' if residents[0]['resources'] is not None else ''}"
+                                f"{'Экспертиза:\n' + residents[0]['expertise'] + '\n\n' if residents[0]['expertise'] is not None else ''}"
+                                f"{'Дата рождения: <i>' + residents[0]['birth_date'] + '</i>\n\n' if residents[0]['birth_date'] is not None else ''}"
+                                f"{'Телефон: ' + residents[0]['phone'] if residents[0]['phone'] is not None else ''}")
 
                     if edit:
                         media = InputMediaPhoto(media=photo, caption=msg_text, parse_mode="HTML")

@@ -8,6 +8,7 @@ from src.admins.events import admins_events_router
 from src.admins.forms import admins_forms_router
 from src.dbms.models.events import create_events_model
 from src.dbms.models.users import create_users_model
+from src.dbms.models.users_for_events import create_users_for_events_model
 from src.users import users_router
 from src.users.about import users_about_router
 from src.users.auth import users_auth_router
@@ -26,7 +27,8 @@ class Main:
         self.bot = IBotEngineFactory(token=os.environ["TOKEN"],
                                      models=[
                                          create_users_model,
-                                         create_events_model
+                                         create_events_model,
+                                         create_users_for_events_model
                                      ],
                                      routers=[
                                          admins_router.router,

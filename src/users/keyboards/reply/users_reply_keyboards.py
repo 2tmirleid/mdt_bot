@@ -62,7 +62,8 @@ class UsersReplyKeyboards:
                     KeyboardButton(text=self.buttons['user']['main_panel']['contacts']),
                 ],
                 [
-                    KeyboardButton(text=self.buttons['user']['main_panel']['calendar'])
+                    KeyboardButton(text=self.buttons['user']['main_panel']['calendar']),
+                    KeyboardButton(text=self.buttons['user']['main_panel']['random_coffee'])
                 ]
             ],
             resize_keyboard=True,

@@ -113,3 +113,12 @@ class SelectUsers:
                 WHERE user_id = '{user_id}'
             );
         """
+
+    async def select_user_from_unsubscribed_users_for_random_coffee(self, user_id) -> str:
+        return f"""
+                    SELECT EXISTS (
+                        SELECT 1 
+                        FROM unsubscribed_users_for_random_coffee 
+                        WHERE user_id = '{user_id}'
+                    );
+                """

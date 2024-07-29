@@ -45,3 +45,11 @@ class InsertUsers:
                             '{event_id}'
                         )
         """
+
+    async def insert_user_for_random_coffee(self, user_id) -> str:
+        return f"""
+            INSERT INTO users_for_random_coffee (
+                        user_id) 
+                        VALUES (
+                            '{user_id}')
+        """

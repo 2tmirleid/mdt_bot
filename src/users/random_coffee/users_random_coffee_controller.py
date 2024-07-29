@@ -60,3 +60,30 @@ class UsersRandomCoffeeController(Controller):
         await msg.answer(self.replicas['general']['random_coffee'],
                          parse_mode="HTML",
                          reply_markup=keyboard)
+
+    async def users_subscribe_for_random_coffee(self, msg: Message, user_id) -> None:
+        try:
+            back_to_main_menu_btn = await (self.users_inline_keyboards.
+                                           users_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+
+            user = await self.users_service.get_if_user_unsubscribed_for_random_coffee(user_id=user_id)
+
+            if user:
+                await self.users_service.delete_user_from_unsubscribed_for_random_coffee(user_id=user_id)
+
+            subscribe = await self.users_service.subscribe_user_for_random_coffee(user_id)
+
+            if subscribe:
+                await msg.answer(self.replicas['user']['random_coffee']['subscribe'],
+                                 reply_markup=back_to_main_menu_btn)
+            else:
+                await msg.answer(self.replicas['general']['error'],
+                                 reply_markup=back_to_main_menu_btn)
+        except Exception as e:
+            print(f"Error while subscribing user for random_coffee: {e}")
+
+            back_to_main_menu_btn = await (self.users_inline_keyboards.
+                                           users_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+
+            await msg.answer(self.replicas['general']['error'],
+                             reply_markup=back_to_main_menu_btn)

@@ -7,6 +7,7 @@ from src.admins import admins_router
 from src.admins.events import admins_events_router
 from src.admins.forms import admins_forms_router
 from src.dbms.models.events import create_events_model
+from src.dbms.models.unsubscribed_users_for_random_coffee import create_unsubscribed_users_for_random_coffee_model
 from src.dbms.models.users import create_users_model
 from src.dbms.models.users_for_events import create_users_for_events_model
 from src.dbms.models.users_for_random_coffee import create_users_for_random_coffee_model
@@ -31,7 +32,8 @@ class Main:
                                          create_users_model,
                                          create_events_model,
                                          create_users_for_events_model,
-                                         create_users_for_random_coffee_model
+                                         create_users_for_random_coffee_model,
+                                         create_unsubscribed_users_for_random_coffee_model
                                      ],
                                      routers=[
                                          admins_router.router,

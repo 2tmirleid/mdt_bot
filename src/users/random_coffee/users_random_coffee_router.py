@@ -1,4 +1,6 @@
-from aiogram import Router
+from aiogram import Router, F
+from aiogram.fsm.context import FSMContext
+from aiogram.types import Message
 
 from src.middlewares.users_auth_middleware import UsersAuthMiddleware
 from src.middlewares.users_moderate_auth_middleware import UsersModerateAuthMiddleware
@@ -18,3 +20,10 @@ callback_data = lexicon.get("callback_data")
 
 router.message.middleware(UsersAuthMiddleware())
 router.message.middleware(UsersModerateAuthMiddleware())
+
+
+@router.message(F.text == buttons['user']['main_panel']['random_coffee'])
+async def process_users_get_random_coffee_info(msg: Message, state: FSMContext) -> None:
+    await state.clear()
+
+    await users_controller.users_get_random_coffee_info(msg)

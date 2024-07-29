@@ -97,3 +97,19 @@ class SelectUsers:
                 WHERE user_id = '{user_id}'
                     AND event_id = '{event_id}'
         """
+
+    async def select_user_id_by_tg_chat_id(self, chat_id) -> str:
+        return f"""
+            SELECT _id 
+                FROM users 
+                    WHERE tg_chat_id = '{chat_id}'
+        """
+
+    async def select_user_from_users_for_random_coffee(self, user_id) -> str:
+        return f"""
+            SELECT EXISTS (
+                SELECT 1 
+                FROM users_for_random_coffee 
+                WHERE user_id = '{user_id}'
+            );
+        """

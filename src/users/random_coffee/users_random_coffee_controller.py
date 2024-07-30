@@ -66,19 +66,22 @@ class UsersRandomCoffeeController(Controller):
             back_to_main_menu_btn = await (self.users_inline_keyboards.
                                            users_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
 
-            user = await self.users_service.get_if_user_unsubscribed_for_random_coffee(user_id=user_id)
+            is_user_subscribed = await self.users_service.get_if_user_in_random_coffee(user_id)
 
-            if user:
-                await self.users_service.delete_user_from_unsubscribed_for_random_coffee(user_id=user_id)
+            if not is_user_subscribed[0][0]:
+                user = await self.users_service.get_if_user_unsubscribed_for_random_coffee(user_id=user_id)
 
-            subscribe = await self.users_service.subscribe_user_for_random_coffee(user_id)
+                if user:
+                    await self.users_service.delete_user_from_unsubscribed_for_random_coffee(user_id=user_id)
 
-            if subscribe:
-                await msg.answer(self.replicas['user']['random_coffee']['subscribe'],
-                                 reply_markup=back_to_main_menu_btn)
-            else:
-                await msg.answer(self.replicas['general']['error'],
-                                 reply_markup=back_to_main_menu_btn)
+                subscribe = await self.users_service.subscribe_user_for_random_coffee(user_id)
+
+                if subscribe:
+                    await msg.answer(self.replicas['user']['random_coffee']['subscribe'],
+                                     reply_markup=back_to_main_menu_btn)
+                else:
+                    await msg.answer(self.replicas['general']['error'],
+                                     reply_markup=back_to_main_menu_btn)
         except Exception as e:
             print(f"Error while subscribing user for random_coffee: {e}")
 
@@ -93,19 +96,22 @@ class UsersRandomCoffeeController(Controller):
             back_to_main_menu_btn = await (self.users_inline_keyboards.
                                            users_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
 
-            user = await self.users_service.get_if_user_in_random_coffee(user_id)
+            is_user_unsubscribed = await self.users_service.get_if_user_unsubscribed_for_random_coffee(user_id=user_id)
 
-            if user:
-                await self.users_service.delete_user_from_users_for_random_coffee(user_id=user_id)
+            if not is_user_unsubscribed[0][0]:
+                user = await self.users_service.get_if_user_in_random_coffee(user_id)
 
-            unsubscribe = await self.users_service.unsubscribe_user_for_random_coffee(user_id=user_id)
+                if user:
+                    await self.users_service.delete_user_from_users_for_random_coffee(user_id=user_id)
 
-            if unsubscribe:
-                await msg.answer(self.replicas['user']['random_coffee']['unsubscribe'],
-                                 reply_markup=back_to_main_menu_btn)
-            else:
-                await msg.answer(self.replicas['general']['error'],
-                                 reply_markup=back_to_main_menu_btn)
+                unsubscribe = await self.users_service.unsubscribe_user_for_random_coffee(user_id=user_id)
+
+                if unsubscribe:
+                    await msg.answer(self.replicas['user']['random_coffee']['unsubscribe'],
+                                     reply_markup=back_to_main_menu_btn)
+                else:
+                    await msg.answer(self.replicas['general']['error'],
+                                     reply_markup=back_to_main_menu_btn)
         except Exception as e:
             print(f"Error while unsubscribing user for random_coffee: {e}")
 

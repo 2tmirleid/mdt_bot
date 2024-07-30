@@ -83,10 +83,10 @@ class SelectAdmins:
         return f"""
             SELECT u.full_name,
                    u.tg_username
-            FROM users_for_random_coffee ufr
+            FROM users_for_random_coffee ufrc
                 JOIN users u
-                    ON ufr.user_id = u._id
-                ORDER BY ufr._id
+                    ON ufrc.user_id = u._id
+                ORDER BY ufrc._id
                 LIMIT 1
                 OFFSET {offset}
         """
@@ -94,4 +94,21 @@ class SelectAdmins:
     async def select_count_subscribed_users_for_random_coffe(self) -> str:
         return f"""
             SELECT COUNT ( * ) FROM users_for_random_coffee
+        """
+
+    async def select_unsubscribed_users_for_random_coffee(self, offset=0) -> str:
+        return f"""
+            SELECT u.full_name,
+                   u.tg_username
+            FROM unsubscribed_users_for_random_coffee uufrc 
+                JOIN users u
+                    ON uufrc.user_id = u._id
+                ORDER BY uufrc._id
+                LIMIT 1
+                OFFSET {offset}
+        """
+
+    async def select_count_unsubscribed_users_for_random_coffe(self) -> str:
+        return f"""
+            SELECT COUNT ( * ) FROM unsubscribed_users_for_random_coffee
         """

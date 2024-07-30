@@ -6,6 +6,7 @@ from dotenv import load_dotenv, find_dotenv
 from src.admins import admins_router
 from src.admins.events import admins_events_router
 from src.admins.forms import admins_forms_router
+from src.admins.random_coffee import admins_random_coffee_router
 from src.dbms.models.events import create_events_model
 from src.dbms.models.unsubscribed_users_for_random_coffee import create_unsubscribed_users_for_random_coffee_model
 from src.dbms.models.users import create_users_model
@@ -39,6 +40,7 @@ class Main:
                                          admins_router.router,
                                          admins_forms_router.router,
                                          admins_events_router.router,
+                                         admins_random_coffee_router.router,
 
                                          users_router.router,
                                          users_auth_router.router,

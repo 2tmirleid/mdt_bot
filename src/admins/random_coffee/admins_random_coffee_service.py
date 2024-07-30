@@ -17,3 +17,13 @@ class AdminsRandomCoffeeService(Service):
         query = await self.select.select_count_subscribed_users_for_random_coffe()
 
         return await self.exec(query=query, fetch=True)
+
+    async def get_unsubscribed_users_for_random_coffee(self, offset=0) -> dict:
+        query = await self.select.select_unsubscribed_users_for_random_coffee(offset=offset)
+
+        return await self.exec(query=query, fetch=True)
+
+    async def get_count_unsubscribed_users_for_random_coffee(self) -> dict:
+        query = await self.select.select_count_unsubscribed_users_for_random_coffe()
+
+        return await self.exec(query=query, fetch=True)

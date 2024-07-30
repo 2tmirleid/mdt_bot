@@ -53,3 +53,13 @@ class InsertUsers:
                         VALUES (
                             '{user_id}')
         """
+
+    async def insert_user_for_unsubscribed_users_for_random_coffee(self, user_id) -> str:
+        return f"""
+            INSERT INTO unsubscribed_users_for_random_coffee(
+                    user_id
+                )
+                VALUES (
+                    '{user_id}'
+                )
+        """

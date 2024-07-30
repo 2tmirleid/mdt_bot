@@ -74,7 +74,7 @@ replicas:
       unregister: "Вы успешно отписались от мероприятия!"
     random_coffee:
       subscribe: "Мы рады, что ты стал(-а) участником RANDOM COFFEE\n\nСкоро ты узнаешь будущего собеседника. Желаем приятной встречи!"
-
+      unsubscribe: "Надеемся, мы вскоре вновь увидим Вас в RANDOM COFFEE!"
 
 buttons:
   pagen:

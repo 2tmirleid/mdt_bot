@@ -12,3 +12,11 @@ class DeleteUsers:
             DELETE FROM unsubscribed_users_for_random_coffee
                 WHERE user_id = '{user_id}'
         """
+
+    async def delete_user_from_subscribed_random_coffee(self, user_id) -> str:
+        return f"""
+                    DELETE FROM users_for_random_coffee
+                        WHERE user_id = '{user_id}'
+                """
+
+

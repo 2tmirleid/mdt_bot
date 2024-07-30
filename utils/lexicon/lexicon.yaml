@@ -92,6 +92,10 @@ buttons:
     backward: "Назад"
     to_main_panel: "В главное меню"
     main_panel:
+      random_coffee:
+        main: "Random Coffee"
+        subscribed: "Подписки"
+        unsubscribed: "Отписки"
       forms:
         main: "Анкеты"
         new: "Новые анкеты"

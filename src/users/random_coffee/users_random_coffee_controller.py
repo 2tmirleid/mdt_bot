@@ -5,7 +5,6 @@ from src.users.keyboards.reply.users_reply_keyboards import UsersReplyKeyboards
 from src.users.random_coffee.users_random_coffee_service import UsersRandomCoffeeService
 from utils.RCS.controller import Controller
 from utils.lexicon.load_lexicon import load_lexicon
-from utils.validator import Validator
 
 
 class UsersRandomCoffeeController(Controller):
@@ -16,8 +15,6 @@ class UsersRandomCoffeeController(Controller):
 
         self.users_reply_keyboards: UsersReplyKeyboards = UsersReplyKeyboards()
         self.users_inline_keyboards: UsersInlineKeyboards = UsersInlineKeyboards()
-
-        self.validator: Validator = Validator()
 
         self.lexicon = load_lexicon()
         self.replicas = self.lexicon.get("replicas")
@@ -61,6 +58,7 @@ class UsersRandomCoffeeController(Controller):
                          parse_mode="HTML",
                          reply_markup=keyboard)
 
+    # Подписка на random coffee
     async def users_subscribe_for_random_coffee(self, msg: Message, user_id) -> None:
         try:
             back_to_main_menu_btn = await (self.users_inline_keyboards.
@@ -68,17 +66,21 @@ class UsersRandomCoffeeController(Controller):
 
             is_user_subscribed = await self.users_service.get_if_user_in_random_coffee(user_id)
 
+            # Если юзер уже подписан, то ничего не произойдет. Сделано для того, чтобы не кликали на одну и ту же кнопку
             if not is_user_subscribed[0][0]:
                 user = await self.users_service.get_if_user_unsubscribed_for_random_coffee(user_id=user_id)
 
+                # Если юзер отписан, то происходит процесс его удаления из таблицы отписанных
                 if user:
                     await self.users_service.delete_user_from_unsubscribed_for_random_coffee(user_id=user_id)
 
                 subscribe = await self.users_service.subscribe_user_for_random_coffee(user_id)
 
+                # Если подписка прошла удачно, отправляем текст об успешной подписке
                 if subscribe:
                     await msg.answer(self.replicas['user']['random_coffee']['subscribe'],
                                      reply_markup=back_to_main_menu_btn)
+                # Иначе - об неудачной
                 else:
                     await msg.answer(self.replicas['general']['error'],
                                      reply_markup=back_to_main_menu_btn)
@@ -91,6 +93,7 @@ class UsersRandomCoffeeController(Controller):
             await msg.answer(self.replicas['general']['error'],
                              reply_markup=back_to_main_menu_btn)
 
+    # Отписка от random coffee
     async def users_unsubscribe_for_random_coffee(self, msg: Message, user_id) -> None:
         try:
             back_to_main_menu_btn = await (self.users_inline_keyboards.
@@ -98,17 +101,21 @@ class UsersRandomCoffeeController(Controller):
 
             is_user_unsubscribed = await self.users_service.get_if_user_unsubscribed_for_random_coffee(user_id=user_id)
 
+            # Если юзер уже отписан, то ничего не произойдет. Сделано для того, чтобы не кликали на одну и ту же кнопку
             if not is_user_unsubscribed[0][0]:
                 user = await self.users_service.get_if_user_in_random_coffee(user_id)
 
+                # Если юзер подписан, то прозойдет его удаление из таблицы подписанных
                 if user:
                     await self.users_service.delete_user_from_users_for_random_coffee(user_id=user_id)
 
                 unsubscribe = await self.users_service.unsubscribe_user_for_random_coffee(user_id=user_id)
 
+                # Если отписка прошла удачно, отправялем текст об успешной отписке
                 if unsubscribe:
                     await msg.answer(self.replicas['user']['random_coffee']['unsubscribe'],
                                      reply_markup=back_to_main_menu_btn)
+                # Иначе - об неуспешной
                 else:
                     await msg.answer(self.replicas['general']['error'],
                                      reply_markup=back_to_main_menu_btn)

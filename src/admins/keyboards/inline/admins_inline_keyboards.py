@@ -73,7 +73,7 @@ class AdminsInlineKeyboards:
             [InlineKeyboardButton(text=saransk_btn_text, callback_data=saransk_btn_clb_data),
              InlineKeyboardButton(text=moscow_btn_text, callback_data=moscow_btn_clb_data)]
         ]
-
+ 
     async def admins_events_edit_city_inline_keyboard(self) -> list:
         saransk_btn_text = self.buttons['admin']['main_panel']['events']['city']['saransk']
         moscow_btn_text = self.buttons['admin']['main_panel']['events']['city']['moscow']

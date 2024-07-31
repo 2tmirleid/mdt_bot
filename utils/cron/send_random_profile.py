@@ -77,7 +77,7 @@ async def send_random_user_for_all_users() -> None:
                 )
             # Иначе - бот выберет другого рандомного юзера, исключая нашего из подборки
             else:
-                exclude_random_user = await get_random_user(exclude_user_id=sub['tg_chat_id'])
+                exclude_random_user = await get_random_user(exclude_user_id=random_user[0]['tg_chat_id'])
 
                 caption = await get_caption(
                     name=sub['full_name'],

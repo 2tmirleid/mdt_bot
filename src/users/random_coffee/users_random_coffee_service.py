@@ -77,3 +77,19 @@ class UsersRandomCoffeeService(Service):
             print(f"Error while unsubscribing user for random coffee from db: {e}")
 
             return False
+
+    async def get_random_profile_for_random_coffee(self, offset, exclude_user_id=0) -> dict:
+        query = await self.select.select_random_profile_for_random_coffee(offset)
+
+        return await self.exec(query=query, fetch=True)
+
+    async def get_count_subscribed_for_random_coffee(self) -> dict:
+        query = await self.select.select_count_subscribed_users_for_random_coffee()
+
+        return await self.exec(query=query, fetch=True)
+
+    async def get_subscribed_users_for_random_coffee(self) -> dict:
+        query = await self.select.select_subscribed_users_for_random_coffee()
+
+        return await self.exec(query=query, fetch=True)
+

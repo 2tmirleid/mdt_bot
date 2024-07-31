@@ -1,3 +1,4 @@
+from src.dbms.connection import conn, cursor
 from src.dbms.methods.admins.delete import DeleteAdmins
 from src.dbms.methods.admins.insert import InsertAdmins
 from src.dbms.methods.admins.select import SelectAdmins
@@ -26,14 +27,28 @@ class AdminsEventsService(Service):
 
     async def add_event(self, event: dict) -> bool:
         try:
-            query = await self.insert.insert_event(event=event)
+            cursor.execute(
+                f"""
+                        INSERT INTO events 
+                            (photo, 
+                            title, 
+                            city, 
+                            description, 
+                            event_date)
+                        VALUES (%s, %s, %s, %s, %s)""",
+                (event['photo'],
+                 event['title'],
+                 event['city'],
+                 event['description'],
+                 event['event_date'])
+            )
 
-            await self.exec(query=query, commit=True)
+            self.conn.commit()
 
             return True
         except Exception as e:
             print(f"Error while inserting event: {e}")
-
+            self.conn.rollback()
             return False
 
     async def get_users_for_event(self, event_id, offset=0) -> dict:

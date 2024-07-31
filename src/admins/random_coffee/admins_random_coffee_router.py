@@ -95,8 +95,8 @@ async def process_admins_pagen_next_unsubs(clb_query: CallbackQuery, state: FSMC
     offset = int(offset_split) + 1
 
     await admins_controller.admins_export_unsubscribed_for_random_coffee(msg=clb_query.message,
-                                                                       offset=offset,
-                                                                       edit=True)
+                                                                         offset=offset,
+                                                                         edit=True)
 
 
 # Обработка кнопки пагинации << для отписанных
@@ -106,8 +106,8 @@ async def process_admins_pagen_backward_unsubs(clb_query: CallbackQuery, state: 
     offset = int(offset_split) - 1
 
     await admins_controller.admins_export_unsubscribed_for_random_coffee(msg=clb_query.message,
-                                                                       offset=offset,
-                                                                       edit=True)
+                                                                         offset=offset,
+                                                                         edit=True)
 
 
 # Обработка кнопки пагинации "В начало" для отписанных
@@ -116,8 +116,8 @@ async def process_admins_pagen_start_unsubs(clb_query: CallbackQuery, state: FSM
     offset = 0
 
     await admins_controller.admins_export_unsubscribed_for_random_coffee(msg=clb_query.message,
-                                                                       offset=offset,
-                                                                       edit=True)
+                                                                         offset=offset,
+                                                                         edit=True)
 
 
 # Обработка кнопки пагинации "В конец" для отписанных
@@ -126,8 +126,8 @@ async def process_admins_pagen_end_unsubs(clb_query: CallbackQuery, state: FSMCo
     offset = await admins_controller.admins_get_count_unsubscribed_users_for_random_coffee() - 1
 
     await admins_controller.admins_export_unsubscribed_for_random_coffee(msg=clb_query.message,
-                                                                       offset=offset,
-                                                                       edit=True)
+                                                                         offset=offset,
+                                                                         edit=True)
 
 
 """ Конец обработки отписчиков """

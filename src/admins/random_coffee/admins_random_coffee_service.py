@@ -27,3 +27,4 @@ class AdminsRandomCoffeeService(Service):
         query = await self.select.select_count_unsubscribed_users_for_random_coffe()
 
         return await self.exec(query=query, fetch=True)
+

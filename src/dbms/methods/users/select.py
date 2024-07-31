@@ -122,3 +122,45 @@ class SelectUsers:
                         WHERE user_id = '{user_id}'
                     );
                 """
+
+    async def select_random_profile_for_random_coffee(self, offset, exclude_user_id=0) -> str:
+        if not exclude_user_id:
+            return f"""SELECT u.full_name,
+                                      u.tg_username,
+                                      u.tg_chat_id,
+                                      u.phone
+                                FROM users_for_random_coffee ufrc
+                                    JOIN users u
+                                        ON ufrc.user_id = u._id
+                                    ORDER BY ufrc._id
+                                    LIMIT 1
+                                    OFFSET {offset}
+                                    """
+        else:
+            return f"""SELECT u.full_name,
+                                      u.tg_username,
+                                      u.tg_chat_id,
+                                      u.phone
+                                FROM users_for_random_coffee ufrc
+                                    JOIN users u
+                                        ON ufrc.user_id = u._id
+                                    WHERE u.tg_chat_id != '{exclude_user_id}'
+                                    ORDER BY ufrc._id
+                                    LIMIT 1
+                                    OFFSET {offset}
+                                    """
+
+    async def select_count_subscribed_users_for_random_coffee(self) -> str:
+        return f"""
+            SELECT COUNT ( * ) FROM users_for_random_coffee
+        """
+
+    async def select_subscribed_users_for_random_coffee(self) -> str:
+        return f"""
+            SELECT u.tg_chat_id,
+                   u.full_name
+            FROM users_for_random_coffee ufrc 
+                JOIN users u 
+                    ON ufrc.user_id = u._id
+                ORDER BY ufrc._id
+        """

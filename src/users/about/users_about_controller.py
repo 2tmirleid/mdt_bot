@@ -21,7 +21,7 @@ class UsersAboutController(Controller):
                                           users_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
 
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_dir, '..', 'static', 'about_mdt.pdf')
+        file_path = os.path.join(current_dir, '..', 'static', 'МДТ 2024.pdf')
 
         document = FSInputFile(file_path)
 

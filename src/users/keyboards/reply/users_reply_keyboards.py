@@ -64,6 +64,9 @@ class UsersReplyKeyboards:
                 [
                     KeyboardButton(text=self.buttons['user']['main_panel']['calendar']),
                     KeyboardButton(text=self.buttons['user']['main_panel']['random_coffee'])
+                ],
+                [
+                    KeyboardButton(text=self.buttons['user']['main_panel']['clubs']['main'])
                 ]
             ],
             resize_keyboard=True,
@@ -81,6 +84,17 @@ class UsersReplyKeyboards:
             keyboard=[
                 [KeyboardButton(text=self.buttons['user']['main_panel']['events']['city']['saransk']),
                  KeyboardButton(text=self.buttons['user']['main_panel']['events']['city']['moscow'])],
+                [KeyboardButton(text=self.buttons['user']['to_main_panel'])]
+            ],
+            resize_keyboard=True,
+            one_time_keyboard=True
+        )
+
+    async def users_clubs_panel_keyboard(self) -> ReplyKeyboardMarkup:
+        return ReplyKeyboardMarkup(
+            keyboard=[
+                [KeyboardButton(text=self.buttons['user']['clubs']['mdt_it']),
+                 KeyboardButton(text=self.buttons['user']['clubs']['mdt_woman'])],
                 [KeyboardButton(text=self.buttons['user']['to_main_panel'])]
             ],
             resize_keyboard=True,

@@ -51,8 +51,8 @@ class AdminsEventsService(Service):
             self.conn.rollback()
             return False
 
-    async def get_users_for_event(self, event_id, offset=0) -> dict:
-        query = await self.select.select_users_for_event(event_id=event_id, offset=offset)
+    async def get_users_for_event(self, event_id) -> dict:
+        query = await self.select.select_users_for_event(event_id=event_id)
 
         return await self.exec(query=query, fetch=True)
 

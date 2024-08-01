@@ -145,54 +145,54 @@ async def process_admins_export_events(clb_query: CallbackQuery) -> None:
     await admins_controller.admins_export_events(msg=clb_query.message, event_id=event_id)
 
 
-@router.callback_query(lambda query: query.data.startswith("admins_pagen_next_users_for_events"))
-async def process_admins_pagen_next_events(clb_query: CallbackQuery) -> None:
-    offset_split = str(clb_query.data.split("-")[1])
-    offset = int(offset_split) + 1
-
-    event_id = admins_controller.event_id
-
-    await admins_controller.admins_export_events(msg=clb_query.message,
-                                                 event_id=event_id,
-                                                 offset=offset,
-                                                 edit=True)
-
-
-@router.callback_query(lambda query: query.data.startswith("admins_pagen_backward_users_for_events"))
-async def process_admins_pagen_backward_events(clb_query: CallbackQuery) -> None:
-    offset_split = str(clb_query.data.split("-")[1])
-    offset = int(offset_split) - 1
-
-    event_id = admins_controller.event_id
-
-    await admins_controller.admins_export_events(msg=clb_query.message,
-                                                 event_id=event_id,
-                                                 offset=offset,
-                                                 edit=True)
-
-
-@router.callback_query(lambda query: query.data.startswith("admins_pagen_start_users_for_events"))
-async def process_admins_pagen_start_events(clb_query: CallbackQuery) -> None:
-    offset = 0
-
-    event_id = admins_controller.event_id
-
-    await admins_controller.admins_export_events(msg=clb_query.message,
-                                                 event_id=event_id,
-                                                 offset=offset,
-                                                 edit=True)
-
-
-@router.callback_query(lambda query: query.data.startswith("admins_pagen_end_users_for_events"))
-async def process_admins_pagen_end_events(clb_query: CallbackQuery) -> None:
-    event_id = admins_controller.event_id
-
-    offset = await admins_controller.admins_get_users_count_for_events(event_id=event_id) - 1
-
-    await admins_controller.admins_export_events(msg=clb_query.message,
-                                                 event_id=event_id,
-                                                 offset=offset,
-                                                 edit=True)
+# @router.callback_query(lambda query: query.data.startswith("admins_pagen_next_users_for_events"))
+# async def process_admins_pagen_next_events(clb_query: CallbackQuery) -> None:
+#     offset_split = str(clb_query.data.split("-")[1])
+#     offset = int(offset_split) + 1
+#
+#     event_id = admins_controller.event_id
+#
+#     await admins_controller.admins_export_events(msg=clb_query.message,
+#                                                  event_id=event_id,
+#                                                  offset=offset,
+#                                                  edit=True)
+#
+#
+# @router.callback_query(lambda query: query.data.startswith("admins_pagen_backward_users_for_events"))
+# async def process_admins_pagen_backward_events(clb_query: CallbackQuery) -> None:
+#     offset_split = str(clb_query.data.split("-")[1])
+#     offset = int(offset_split) - 1
+#
+#     event_id = admins_controller.event_id
+#
+#     await admins_controller.admins_export_events(msg=clb_query.message,
+#                                                  event_id=event_id,
+#                                                  offset=offset,
+#                                                  edit=True)
+#
+#
+# @router.callback_query(lambda query: query.data.startswith("admins_pagen_start_users_for_events"))
+# async def process_admins_pagen_start_events(clb_query: CallbackQuery) -> None:
+#     offset = 0
+#
+#     event_id = admins_controller.event_id
+#
+#     await admins_controller.admins_export_events(msg=clb_query.message,
+#                                                  event_id=event_id,
+#                                                  offset=offset,
+#                                                  edit=True)
+#
+#
+# @router.callback_query(lambda query: query.data.startswith("admins_pagen_end_users_for_events"))
+# async def process_admins_pagen_end_events(clb_query: CallbackQuery) -> None:
+#     event_id = admins_controller.event_id
+#
+#     offset = await admins_controller.admins_get_users_count_for_events(event_id=event_id) - 1
+#
+#     await admins_controller.admins_export_events(msg=clb_query.message,
+#                                                  event_id=event_id,
+#                                                  offset=offset,
+#                                                  edit=True)
 
 
 @router.callback_query(lambda query: query.data.startswith("admins_delete_events"))

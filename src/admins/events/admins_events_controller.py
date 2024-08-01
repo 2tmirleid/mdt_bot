@@ -296,51 +296,79 @@ class AdminsEventsController(Controller):
 
     async def admins_export_events(self, msg: Message, event_id, offset=0, edit=False) -> None:
         try:
-            users = await self.admins_service.get_users_for_event(event_id=event_id, offset=offset)
+
+            users = await self.admins_service.get_users_for_event(event_id=event_id)
 
             users_count = await self.admins_service.get_users_count_for_event(event_id=event_id)
 
-            back_to_main_menu_btn = await (self.admins_inline_keyboards.
-                                           admins_dynamic_entity_to_main_menu_panel_keyboard())
+            """ NEW """
 
-            pages = users_count[0][0]
+            msg_text = ""
 
-            pagen_callback_data = f"_users_for_events-{offset}"
+            if users_count[0][0] > 0:
+                back_to_main_menu_btn = await (self.admins_inline_keyboards.
+                                               admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
 
-            if pages > 0:
-                pagen = await self.build_admins_pagen(
-                    pages=pages,
-                    offset=offset,
-                    callback_data=pagen_callback_data
-                )
+                for i in range(len(users)):
+                    full_name = users[i]['full_name']
 
-                keyboard = InlineKeyboardMarkup(
-                    inline_keyboard=[
-                        pagen,
-                        back_to_main_menu_btn
-                    ])
+                    username = users[i]['tg_username']
 
-                full_name = users[0]['full_name']
+                    msg_text += f"{i + 1}. <a href='https://t.me/{username}'>{full_name}</a>\n\n"
 
-                username = users[0]['tg_username']
-
-                msg_text = (f"{offset + 1} из {pages}\n\n"
-                            f"<b><a href='https://t.me/{username}'>{full_name}</a></b>")
-
-                if edit:
-                    await msg.edit_text(text=msg_text,
-                                        parse_mode="HTML",
-                                        reply_markup=keyboard)
-                else:
-                    await msg.answer(text=msg_text,
-                                     parse_mode="HTML",
-                                     reply_markup=keyboard)
+                await msg.answer(text=msg_text,
+                                 reply_markup=back_to_main_menu_btn,
+                                 parse_mode="HTML")
             else:
                 back_to_main_menu_btn = await (self.admins_inline_keyboards.
                                                admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
 
                 await msg.answer(self.replicas['admin']['other']['empty'],
                                  reply_markup=back_to_main_menu_btn)
+
+            """ END NEW """
+
+            # back_to_main_menu_btn = await (self.admins_inline_keyboards.
+            #                                admins_dynamic_entity_to_main_menu_panel_keyboard())
+            #
+            # pages = users_count[0][0]
+            #
+            # pagen_callback_data = f"_users_for_events-{offset}"
+            #
+            # if pages > 0:
+            #     pagen = await self.build_admins_pagen(
+            #         pages=pages,
+            #         offset=offset,
+            #         callback_data=pagen_callback_data
+            #     )
+            #
+            #     keyboard = InlineKeyboardMarkup(
+            #         inline_keyboard=[
+            #             pagen,
+            #             back_to_main_menu_btn
+            #         ])
+            #
+            #     full_name = users[0]['full_name']
+            #
+            #     username = users[0]['tg_username']
+            #
+            #     msg_text = (f"{offset + 1} из {pages}\n\n"
+            #                 f"<b><a href='https://t.me/{username}'>{full_name}</a></b>")
+            #
+            #     if edit:
+            #         await msg.edit_text(text=msg_text,
+            #                             parse_mode="HTML",
+            #                             reply_markup=keyboard)
+            #     else:
+            #         await msg.answer(text=msg_text,
+            #                          parse_mode="HTML",
+            #                          reply_markup=keyboard)
+            # else:
+            #     back_to_main_menu_btn = await (self.admins_inline_keyboards.
+            #                                    admins_dynamic_entity_to_main_menu_panel_keyboard(markup=True))
+            #
+            #     await msg.answer(self.replicas['admin']['other']['empty'],
+            #                      reply_markup=back_to_main_menu_btn)
         except Exception as e:
             print(f"Error while getting users for events by admin: {e}")
 

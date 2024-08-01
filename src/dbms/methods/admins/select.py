@@ -56,7 +56,7 @@ class SelectAdmins:
                     FROM events
                     WHERE city = '{city}'"""
 
-    async def select_users_for_event(self, event_id, offset=0) -> str:
+    async def select_users_for_event(self, event_id,) -> str:
         return f"""
             SELECT u.full_name,
                    u.tg_username 
@@ -65,8 +65,6 @@ class SelectAdmins:
                     ON ufe.user_id = u._id
                 WHERE event_id = '{event_id}'
                 ORDER BY ufe.user_id
-                LIMIT 1
-                OFFSET {offset}
         """
 
     async def select_users_count_for_event(self, event_id) -> str:

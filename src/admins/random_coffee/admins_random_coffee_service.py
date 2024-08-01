@@ -8,8 +8,8 @@ class AdminsRandomCoffeeService(Service):
 
         self.select: SelectAdmins = SelectAdmins()
 
-    async def get_subscribed_users_for_random_coffee(self, offset=0) -> dict:
-        query = await self.select.select_subscribed_users_for_random_coffee(offset=offset)
+    async def get_subscribed_users_for_random_coffee(self) -> dict:
+        query = await self.select.select_subscribed_users_for_random_coffee()
 
         return await self.exec(query=query, fetch=True)
 
@@ -18,8 +18,8 @@ class AdminsRandomCoffeeService(Service):
 
         return await self.exec(query=query, fetch=True)
 
-    async def get_unsubscribed_users_for_random_coffee(self, offset=0) -> dict:
-        query = await self.select.select_unsubscribed_users_for_random_coffee(offset=offset)
+    async def get_unsubscribed_users_for_random_coffee(self) -> dict:
+        query = await self.select.select_unsubscribed_users_for_random_coffee()
 
         return await self.exec(query=query, fetch=True)
 

@@ -77,7 +77,7 @@ class SelectAdmins:
     async def select_event_activity_by_id(self, event_id) -> str:
         return f"""SELECT is_active FROM events WHERE _id = '{event_id}'"""
 
-    async def select_subscribed_users_for_random_coffee(self, offset=0) -> str:
+    async def select_subscribed_users_for_random_coffee(self) -> str:
         return f"""
             SELECT u.full_name,
                    u.tg_username
@@ -85,8 +85,6 @@ class SelectAdmins:
                 JOIN users u
                     ON ufrc.user_id = u._id
                 ORDER BY ufrc._id
-                LIMIT 1
-                OFFSET {offset}
         """
 
     async def select_count_subscribed_users_for_random_coffe(self) -> str:
@@ -94,7 +92,7 @@ class SelectAdmins:
             SELECT COUNT ( * ) FROM users_for_random_coffee
         """
 
-    async def select_unsubscribed_users_for_random_coffee(self, offset=0) -> str:
+    async def select_unsubscribed_users_for_random_coffee(self) -> str:
         return f"""
             SELECT u.full_name,
                    u.tg_username
@@ -102,8 +100,6 @@ class SelectAdmins:
                 JOIN users u
                     ON uufrc.user_id = u._id
                 ORDER BY uufrc._id
-                LIMIT 1
-                OFFSET {offset}
         """
 
     async def select_count_unsubscribed_users_for_random_coffe(self) -> str:

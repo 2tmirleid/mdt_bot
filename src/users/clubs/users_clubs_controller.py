@@ -47,15 +47,23 @@ class UsersClubsController(Controller):
 
         link = "https://t.me/+VTjP2RY5E_s1ODVi"
 
+        link_btn = [
+            InlineKeyboardButton(text="Хочу присоединиться", url=link)
+        ]
+
+        back_to_main_menu_btn = await self.users_inline_keyboards.users_dynamic_entity_to_main_menu_panel_keyboard()
+
+        keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                link_btn,
+                back_to_main_menu_btn
+            ]
+        )
+
         await msg.answer_photo(photo=photo,
                                caption=msg_text,
                                parse_mode="HTML",
-                               reply_markup=InlineKeyboardMarkup(
-                                   inline_keyboard=[
-                                       [InlineKeyboardButton(text="Хочу присоединиться",
-                                                             url=link)]
-                                   ]
-                               ))
+                               reply_markup=keyboard)
 
     async def users_get_clubs_mdt_woman(self, msg: Message) -> None:
         current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -70,12 +78,20 @@ class UsersClubsController(Controller):
 
         link = "https://t.me/+nqEX7-I30Sw5MzYy"
 
+        link_btn = [
+            InlineKeyboardButton(text="Хочу присоединиться", url=link)
+        ]
+
+        back_to_main_menu_btn = await self.users_inline_keyboards.users_dynamic_entity_to_main_menu_panel_keyboard()
+
+        keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                link_btn,
+                back_to_main_menu_btn
+            ]
+        )
+
         await msg.answer_photo(photo=photo,
                                caption=msg_text,
                                parse_mode="HTML",
-                               reply_markup=InlineKeyboardMarkup(
-                                   inline_keyboard=[
-                                       [InlineKeyboardButton(text="Хочу присоединиться",
-                                                             url=link)]
-                                   ]
-                               ))
+                               reply_markup=keyboard)

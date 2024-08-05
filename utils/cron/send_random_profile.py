@@ -52,45 +52,47 @@ async def get_caption(name: str, username: str, phone: str) -> str:
 
 
 async def send_random_user_for_all_users() -> None:
-    # Получаем всех подписчиков
-    subs = await get_subs()
-    # Получаем кол-во подписчиков
-    subs_count = await get_subs_count()
-    # Получаем рандомного юзера
-    random_user = await get_random_user()
+    try:
+        # Получаем всех подписчиков
+        subs = await get_subs()
+        # Получаем кол-во подписчиков
+        subs_count = await get_subs_count()
+        # Получаем рандомного юзера
+        random_user = await get_random_user()
 
-    # Если кол-во меньше 2х, то произойдет бесконечный цикл запросов к базе и она ляжет
-    if subs_count >= 2:
-        for sub in subs:
-            # Если tg_chat_id рандомного юзера и юзера, которому бот отправит смс не равны, то ок
-            if random_user[0]['tg_chat_id'] != sub['tg_chat_id']:
-                caption = await get_caption(
-                    name=sub['full_name'],
-                    username=random_user[0]['tg_username'],
-                    phone=random_user[0]['phone']
-                )
+        # Если кол-во меньше 2х, то произойдет бесконечный цикл запросов к базе и она ляжет
+        if subs_count >= 2:
+            for sub in subs:
+                # Если tg_chat_id рандомного юзера и юзера, которому бот отправит смс не равны, то ок
+                if random_user[0]['tg_chat_id'] != sub['tg_chat_id']:
+                    caption = await get_caption(
+                        name=sub['full_name'],
+                        username=random_user[0]['tg_username'],
+                        phone=random_user[0]['phone']
+                    )
 
-                await bot.send_message(
-                    chat_id=sub['tg_chat_id'],
-                    text=caption,
-                    parse_mode="HTML"
-                )
-                "python3 -m utils.cron.send_random_profile"
-            # Иначе - бот выберет другого рандомного юзера, исключая нашего из подборки
-            else:
-                exclude_random_user = await get_random_user(exclude_user_id=random_user[0]['tg_chat_id'])
+                    await bot.send_message(
+                        chat_id=sub['tg_chat_id'],
+                        text=caption,
+                        parse_mode="HTML"
+                    )
+                # Иначе - бот выберет другого рандомного юзера, исключая нашего из подборки
+                else:
+                    exclude_random_user = await get_random_user(exclude_user_id=random_user[0]['tg_chat_id'])
 
-                caption = await get_caption(
-                    name=sub['full_name'],
-                    username=exclude_random_user[0]['tg_username'],
-                    phone=exclude_random_user[0]['phone']
-                )
+                    caption = await get_caption(
+                        name=sub['full_name'],
+                        username=exclude_random_user[0]['tg_username'],
+                        phone=exclude_random_user[0]['phone']
+                    )
 
-                await bot.send_message(
-                    chat_id=sub['tg_chat_id'],
-                    text=caption,
-                    parse_mode="HTML"
-                )
+                    await bot.send_message(
+                        chat_id=sub['tg_chat_id'],
+                        text=caption,
+                        parse_mode="HTML"
+                    )
+    except Exception as e:
+        print(f"[CRON] - [ERROR] - {e}")
 
 
 if __name__ == "__main__":

@@ -30,7 +30,7 @@ async def get_random_user(exclude_user_id=0) -> dict:
 
     random_num = random.randint(0, subs_count)
 
-    return await users_service.get_random_profile_for_random_coffee(offset=random_num, exclude_user_id=0)
+    return await users_service.get_random_profile_for_random_coffee(offset=random_num, exclude_user_id=exclude_user_id)
 
 
 # Получаем список всех подписанных
@@ -75,6 +75,7 @@ async def send_random_user_for_all_users() -> None:
                     text=caption,
                     parse_mode="HTML"
                 )
+                "python3 -m utils.cron.send_random_profile"
             # Иначе - бот выберет другого рандомного юзера, исключая нашего из подборки
             else:
                 exclude_random_user = await get_random_user(exclude_user_id=random_user[0]['tg_chat_id'])

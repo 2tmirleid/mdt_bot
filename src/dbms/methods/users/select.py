@@ -77,7 +77,7 @@ class SelectUsers:
                 FROM events
                 WHERE is_active = '1'
                     AND city = '{city}'
-                ORDER BY _id
+                ORDER BY event_date
                 LIMIT 1
                 offset {offset}
         """

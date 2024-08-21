@@ -47,7 +47,7 @@ class SelectAdmins:
                          is_active
                       FROM events
                       WHERE LOWER(city)  = '{city.lower()}'
-                      ORDER BY _id
+                      ORDER BY event_date
                       LIMIT 1
                       OFFSET {offset}"""
 

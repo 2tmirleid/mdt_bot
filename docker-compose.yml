@@ -21,7 +21,7 @@ services:
     depends_on:
       # Your DBMS
       - ${DBMS}
-    restart: always
+    restart: on-failure
   postgres:
     # Name of DBMS container
     container_name: ${COMPOSE_PROJECT_NAME}_db
@@ -38,4 +38,4 @@ services:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - /var/lib/postgresql/data
-    restart: always
+    restart: on-failure

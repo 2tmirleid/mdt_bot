@@ -27,7 +27,7 @@ class AdminsReplyKeyboards:
                     KeyboardButton(text=self.buttons['admin']['main_panel']['events']['main'])
                 ],
                 [
-                    KeyboardButton(text=self.buttons['admin']['main_panel']['random_coffee']['main'])
+                    # KeyboardButton(text=self.buttons['admin']['main_panel']['random_coffee']['main'])
                 ]
             ],
             resize_keyboard=True,

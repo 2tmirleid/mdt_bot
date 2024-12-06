@@ -21,11 +21,11 @@ router.message.middleware(UsersAuthMiddleware())
 router.message.middleware(UsersModerateAuthMiddleware())
 
 
-@router.message(F.text == buttons['user']['main_panel']['random_coffee'])
-async def process_users_get_random_coffee_info(msg: Message, state: FSMContext) -> None:
-    await state.clear()
-
-    await users_controller.users_get_random_coffee_info(msg)
+# @router.message(F.text == buttons['user']['main_panel']['random_coffee'])
+# async def process_users_get_random_coffee_info(msg: Message, state: FSMContext) -> None:
+#     await state.clear()
+#
+#     await users_controller.users_get_random_coffee_info(msg)
 
 
 @router.callback_query(lambda query: query.data.startswith("users_random_coffee_subscribe"))

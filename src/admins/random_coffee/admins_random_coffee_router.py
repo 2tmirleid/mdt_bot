@@ -21,17 +21,17 @@ buttons = lexicon.get("buttons")
 callback_data = lexicon.get("callback_data")
 
 
-@router.message(F.text == buttons['admin']['main_panel']['random_coffee']['main'])
-async def process_admins_get_random_coffee_info(msg: Message) -> None:
-    await admins_controller.admins_get_random_coffee_info(msg)
-
-
-""" Обработка подписчиков """
-
-
-@router.message(F.text == buttons['admin']['main_panel']['random_coffee']['subscribed'])
-async def process_admins_get_subs_for_random_coffee(msg: Message) -> None:
-    await admins_controller.admins_export_subscribed_for_random_coffee(msg)
+# @router.message(F.text == buttons['admin']['main_panel']['random_coffee']['main'])
+# async def process_admins_get_random_coffee_info(msg: Message) -> None:
+#     await admins_controller.admins_get_random_coffee_info(msg)
+#
+#
+# """ Обработка подписчиков """
+#
+#
+# @router.message(F.text == buttons['admin']['main_panel']['random_coffee']['subscribed'])
+# async def process_admins_get_subs_for_random_coffee(msg: Message) -> None:
+#     await admins_controller.admins_export_subscribed_for_random_coffee(msg)
 
 
 # # Обработка кнопки пагинации >> для подписанных
@@ -82,9 +82,9 @@ async def process_admins_get_subs_for_random_coffee(msg: Message) -> None:
 """ Обработка отписчиков """
 
 
-@router.message(F.text == buttons['admin']['main_panel']['random_coffee']['unsubscribed'])
-async def process_admins_get_unsubs_for_random_coffee(msg: Message) -> None:
-    await admins_controller.admins_export_unsubscribed_for_random_coffee(msg)
+# @router.message(F.text == buttons['admin']['main_panel']['random_coffee']['unsubscribed'])
+# async def process_admins_get_unsubs_for_random_coffee(msg: Message) -> None:
+#     await admins_controller.admins_export_unsubscribed_for_random_coffee(msg)
 
 
 # Обработка кнопки пагинации >> для отписанных

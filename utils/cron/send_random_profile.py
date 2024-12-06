@@ -2,6 +2,8 @@
 
 """ЗАПУСК КАЖДЫЙ ПОНЕДЕЛЬНИК В 09:00"""
 
+"""0 6 * * 1  cd /usr/mdt_bot/ && python3 -m utils.cron.send_random_profile >> /var/log/rand_cof.log 2>&1"""
+
 import asyncio
 import os
 import random
